@@ -1,0 +1,114 @@
+.partnersContainer {
+    background-color: black;
+    width: 100%;
+    height: auto;
+    @include disFC();
+    &__form {
+        width: 60%;
+        height: auto;
+        @include disFC();
+        flex-direction: column;
+        padding: 2vh 0vh 6vh 0vh;
+        &__phrase {
+            color: white;
+            padding-bottom: 2vh;
+        }
+        &__credentials {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            &__label-input {
+                width: 100%;
+                height: auto;
+                display: grid;
+                grid-template-columns: 1fr 3fr;
+                gap: 10vh;
+                padding: 2vh 0vh;
+                &__label {
+                    font-size: 30px;
+                    color: white;
+                }
+                &__input {
+                    width: 100%;
+                }
+            }
+            &__btn {
+                width: 100%;
+                height: auto;
+                @include disFC();
+                padding-top: 2vh;
+                &__prop {
+                    background-color: black;
+                    width: 70%;
+                    height: 40px;
+                    font-size: 20px;
+                    color: white;
+                    border-radius: 5vh;
+                    border: 0.3vh solid yellow;
+                    &:hover {
+                        background-color: white;
+                        color: black;
+                        border: 0.3vh solid yellow;
+                    }
+                }
+            }
+        }
+    }
+}
+.partnersContainerIsLoggedIn {
+    background-color: black;
+    width: 100%;
+    height: auto;
+    @include disFC();
+    &__form {
+        width: 60%;
+        height: auto;
+        @include disFC();
+        flex-direction: column;
+        padding: 6vh 0vh 8vh 0vh;
+        &__phrase {
+            color: white;
+            padding-bottom: 2vh;
+        }
+        &__credentials {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            &__label-input {
+                width: 100%;
+                height: auto;
+                display: grid;
+                grid-template-columns: 1fr 3fr;
+                gap: 10vh;
+                padding: 2vh 0vh;
+                &__label {
+                    font-size: 30px;
+                    color: white;
+                }
+                &__input {
+                    width: 100%;
+                }
+            }
+            &__btn {
+                width: 100%;
+                height: auto;
+                @include disFC();
+                padding-top: 2vh;
+                &__prop {
+                    background-color: black;
+                    width: 70%;
+                    height: 40px;
+                    font-size: 20px;
+                    color: white;
+                    border-radius: 5vh;
+                    border: 0.3vh solid yellow;
+                    &:hover {
+                        background-color: white;
+                        color: black;
+                        border: 0.3vh solid yellow;
+                    }
+                }
+            }
+        }
+    }
+}

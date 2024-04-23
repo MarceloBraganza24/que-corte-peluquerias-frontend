@@ -1,0 +1,80 @@
+.navBarContainer {
+    background-color: black;
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 0.5vh;
+    border-bottom: 0.5vh solid yellow;
+    &__logo-title {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        &__logo {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            &__prop {
+                width: 25%;
+                height: auto;
+            }
+        }
+        &__title {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            &__prop {
+                text-decoration: none;
+                color: white;
+                font-size: 40px;
+                color: white;
+            }
+        }
+    }
+    &__phrase-btns {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        &__phrase {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            &__prop {
+                color: white;
+                font-size: 20px;
+            }
+        }
+        &__btns {
+            width: 100%;
+            height: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            font-size: 17px;
+            color: white;
+            &__prop {
+                width: 100%;
+                height: auto;
+                @include disFC();
+                text-decoration: none;
+                color: white;
+                &:hover {
+                    background-color: yellow;
+                    color: black;
+                }
+                &__line {
+                    border-top: 0.3vh solid yellow;
+                    @include disFC();
+                    text-decoration: none;
+                    color: white;
+                    &:hover {
+                        background-color: yellow;
+                        color: black;
+                    }
+                }
+            }
+        }
+    }
+}

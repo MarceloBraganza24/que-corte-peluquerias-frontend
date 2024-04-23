@@ -1,0 +1,49 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+h2 {
+    margin-bottom: 0;
+}
+
+@mixin disFC {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@import "singUp";
+@import "logIn";
+@import "navBar";
+@import "footer";
+@import "home";
+@import "shifts";
+@import "logOut";
+@import "about";
+@import "cuts";
+@import "partners";
+
+@media (min-width: 1540px) {
+.aboutContainer {
+    &__descriptionContainer {
+        font-size: 30px;
+        padding: 10vh 4vh;
+    }
+}
+.partnersContainer {
+    &__form {
+        padding: 11vh 0vh;
+    }
+}    
+.shiftsContainer {
+    &__form {
+        padding: 15vh 0vh;
+    }
+}    
+}

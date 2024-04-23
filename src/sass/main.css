@@ -1,0 +1,688 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+.singUpContainer {
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  color: black;
+}
+.singUpContainer__credentials {
+  background-color: white;
+  width: 50%;
+  height: auto;
+  padding: 5vh 4vh;
+  border-radius: 5vh;
+}
+.singUpContainer__credentials__phrase {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.singUpContainer__credentials__phrase__title {
+  font-size: 60px;
+  letter-spacing: 1vh;
+}
+.singUpContainer__credentials__form {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+.singUpContainer__credentials__form__label-input {
+  display: flex;
+  flex-direction: column;
+}
+.singUpContainer__credentials__form__label-input__label {
+  font-size: 25px;
+}
+.singUpContainer__credentials__form__label-input__input {
+  width: 70%;
+  height: 35px;
+}
+.singUpContainer__credentials__form__btn {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  padding-top: 2vh;
+}
+.singUpContainer__credentials__form__btn__prop {
+  background-color: black;
+  width: 70%;
+  height: 40px;
+  font-size: 20px;
+  color: yellow;
+  border-radius: 5vh;
+}
+
+.loginContainer {
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  color: black;
+}
+.loginContainer__credentials {
+  background-color: white;
+  width: 50%;
+  height: auto;
+  padding: 5vh 4vh;
+  border-radius: 5vh;
+}
+.loginContainer__credentials__phrase {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loginContainer__credentials__phrase__title {
+  font-size: 60px;
+  letter-spacing: 1vh;
+}
+.loginContainer__credentials__form {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+.loginContainer__credentials__form__label-input {
+  display: flex;
+  flex-direction: column;
+}
+.loginContainer__credentials__form__label-input__label {
+  font-size: 25px;
+}
+.loginContainer__credentials__form__label-input__input {
+  width: 70%;
+  height: 35px;
+}
+.loginContainer__credentials__form__btn {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  padding-top: 2vh;
+}
+.loginContainer__credentials__form__btn__prop {
+  background-color: black;
+  width: 70%;
+  height: 40px;
+  font-size: 20px;
+  color: yellow;
+  border-radius: 5vh;
+}
+
+.navBarContainer {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 0.5vh;
+  border-bottom: 0.5vh solid yellow;
+}
+.navBarContainer__logo-title {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.navBarContainer__logo-title__logo {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.navBarContainer__logo-title__logo__prop {
+  width: 25%;
+  height: auto;
+}
+.navBarContainer__logo-title__title {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.navBarContainer__logo-title__title__prop {
+  text-decoration: none;
+  color: white;
+  font-size: 40px;
+  color: white;
+}
+.navBarContainer__phrase-btns {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+.navBarContainer__phrase-btns__phrase {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.navBarContainer__phrase-btns__phrase__prop {
+  color: white;
+  font-size: 20px;
+}
+.navBarContainer__phrase-btns__btns {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  font-size: 17px;
+  color: white;
+}
+.navBarContainer__phrase-btns__btns__prop {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+.navBarContainer__phrase-btns__btns__prop:hover {
+  background-color: yellow;
+  color: black;
+}
+.navBarContainer__phrase-btns__btns__prop__line {
+  border-top: 0.3vh solid yellow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+.navBarContainer__phrase-btns__btns__prop__line:hover {
+  background-color: yellow;
+  color: black;
+}
+
+.footerContainer {
+  background-color: black;
+  width: 100%;
+  height: 15vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 0.5vh solid yellow;
+}
+.footerContainer__social-networks {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footerContainer__social-networks__logo-link {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2vh;
+}
+.footerContainer__social-networks__logo-link__link {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+}
+.footerContainer__social-networks__logo-link__link:hover {
+  color: yellow;
+}
+.footerContainer__title-copyrigth {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2fr 1fr;
+}
+.footerContainer__title-copyrigth__title {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footerContainer__title-copyrigth__title__prop {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+}
+.footerContainer__title-copyrigth__title__prop__spacing {
+  letter-spacing: 0.5vh;
+}
+.footerContainer__title-copyrigth__copyrigth {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footerContainer__title-copyrigth__copyrigth__prop {
+  font-size: 12px;
+  color: white;
+}
+
+.warningLogin {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh;
+}
+.warningLogin__prop {
+  color: white;
+}
+.warningLogin__link {
+  text-decoration: none;
+  color: white;
+}
+.warningLogin__link:hover {
+  color: yellow;
+}
+
+.carouselContainer {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.carouselContainer__prop {
+  width: 80%;
+}
+
+.carouselContainerIsLoggedIn {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4vh 0vh 4vh 0vh;
+}
+.carouselContainerIsLoggedIn__prop {
+  width: 80%;
+}
+
+.shiftsContainer {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.shiftsContainer__form {
+  width: 60%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0vh 0vh 3vh 0vh;
+}
+.shiftsContainer__form__phrase {
+  color: white;
+  padding-bottom: 2vh;
+}
+.shiftsContainer__form__credentials {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.shiftsContainer__form__credentials__label-input {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 10vh;
+  padding: 2vh 0vh;
+}
+.shiftsContainer__form__credentials__label-input__label {
+  font-size: 30px;
+  color: white;
+}
+.shiftsContainer__form__credentials__label-input__input {
+  width: 100%;
+  height: 5vh;
+}
+.shiftsContainer__form__credentials__label-input__input__precio {
+  background-color: black;
+  border: none;
+  font-size: 25px;
+  color: white;
+}
+.shiftsContainer__form__credentials__btn {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2vh;
+}
+.shiftsContainer__form__credentials__btn__prop {
+  background-color: black;
+  width: 70%;
+  height: 40px;
+  font-size: 20px;
+  color: white;
+  border-radius: 5vh;
+  border: 0.3vh solid yellow;
+}
+.shiftsContainer__form__credentials__btn__prop:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid yellow;
+}
+
+.shiftsContainerIsLoggedIn {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.shiftsContainerIsLoggedIn__form {
+  width: 60%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5vh 0vh 5vh 0vh;
+}
+.shiftsContainerIsLoggedIn__form__phrase {
+  color: white;
+  padding-bottom: 2vh;
+}
+.shiftsContainerIsLoggedIn__form__credentials {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.shiftsContainerIsLoggedIn__form__credentials__label-input {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 10vh;
+  padding: 2vh 0vh;
+}
+.shiftsContainerIsLoggedIn__form__credentials__label-input__label {
+  font-size: 30px;
+  color: white;
+}
+.shiftsContainerIsLoggedIn__form__credentials__label-input__input {
+  width: 100%;
+  height: 5vh;
+}
+.shiftsContainerIsLoggedIn__form__credentials__label-input__input__precio {
+  background-color: black;
+  border: none;
+  font-size: 25px;
+  color: white;
+}
+.shiftsContainerIsLoggedIn__form__credentials__btn {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2vh;
+}
+.shiftsContainerIsLoggedIn__form__credentials__btn__prop {
+  background-color: black;
+  width: 70%;
+  height: 40px;
+  font-size: 20px;
+  color: white;
+  border-radius: 5vh;
+  border: 0.3vh solid yellow;
+}
+.shiftsContainerIsLoggedIn__form__credentials__btn__prop:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid yellow;
+}
+
+.datePiker {
+  width: 100%;
+  height: 5vh;
+}
+
+.logOut {
+  position: absolute;
+  top: 14.5vh;
+  right: 3vh;
+  color: white;
+  text-decoration: underline;
+  background-color: black;
+}
+
+.aboutContainer {
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.aboutContainer__descriptionContainer {
+  width: 60%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  padding: 8vh 4vh;
+  color: white;
+  text-align: justify;
+}
+
+.cutsContainer {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cutsContainer__cuts {
+  width: 80%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2vh 0vh 2vh 0vh;
+}
+
+.partnersContainer {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.partnersContainer__form {
+  width: 60%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2vh 0vh 6vh 0vh;
+}
+.partnersContainer__form__phrase {
+  color: white;
+  padding-bottom: 2vh;
+}
+.partnersContainer__form__credentials {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.partnersContainer__form__credentials__label-input {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 10vh;
+  padding: 2vh 0vh;
+}
+.partnersContainer__form__credentials__label-input__label {
+  font-size: 30px;
+  color: white;
+}
+.partnersContainer__form__credentials__label-input__input {
+  width: 100%;
+}
+.partnersContainer__form__credentials__btn {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2vh;
+}
+.partnersContainer__form__credentials__btn__prop {
+  background-color: black;
+  width: 70%;
+  height: 40px;
+  font-size: 20px;
+  color: white;
+  border-radius: 5vh;
+  border: 0.3vh solid yellow;
+}
+.partnersContainer__form__credentials__btn__prop:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid yellow;
+}
+
+.partnersContainerIsLoggedIn {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.partnersContainerIsLoggedIn__form {
+  width: 60%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 6vh 0vh 8vh 0vh;
+}
+.partnersContainerIsLoggedIn__form__phrase {
+  color: white;
+  padding-bottom: 2vh;
+}
+.partnersContainerIsLoggedIn__form__credentials {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.partnersContainerIsLoggedIn__form__credentials__label-input {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 10vh;
+  padding: 2vh 0vh;
+}
+.partnersContainerIsLoggedIn__form__credentials__label-input__label {
+  font-size: 30px;
+  color: white;
+}
+.partnersContainerIsLoggedIn__form__credentials__label-input__input {
+  width: 100%;
+}
+.partnersContainerIsLoggedIn__form__credentials__btn {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2vh;
+}
+.partnersContainerIsLoggedIn__form__credentials__btn__prop {
+  background-color: black;
+  width: 70%;
+  height: 40px;
+  font-size: 20px;
+  color: white;
+  border-radius: 5vh;
+  border: 0.3vh solid yellow;
+}
+.partnersContainerIsLoggedIn__form__credentials__btn__prop:hover {
+  background-color: white;
+  color: black;
+  border: 0.3vh solid yellow;
+}
+
+@media (min-width: 1540px) {
+  .aboutContainer__descriptionContainer {
+    font-size: 30px;
+    padding: 10vh 4vh;
+  }
+  .partnersContainer__form {
+    padding: 11vh 0vh;
+  }
+  .shiftsContainer__form {
+    padding: 15vh 0vh;
+  }
+}/*# sourceMappingURL=main.css.map */

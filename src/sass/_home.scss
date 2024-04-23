@@ -1,0 +1,39 @@
+.warningLogin {
+    background-color: black;
+    width: 100%;
+    height: auto;
+    @include disFC();
+    padding: 1vh;
+    &__prop {
+        color: white;
+    }
+    &__link {
+        text-decoration: none;
+        color: white;
+        &:hover {
+            color: yellow;
+        }
+    }
+}
+
+.carouselContainer {
+    background-color: black;
+    width: 100%;
+    height: auto;
+    @include disFC();
+    //padding: 2vh 0vh 2vh 0vh;
+    &__prop {
+        width: 80%;
+    }
+}
+
+.carouselContainerIsLoggedIn {
+    background-color: black;
+    width: 100%;
+    height: auto;
+    @include disFC();
+    padding: 4vh 0vh 4vh 0vh;
+    &__prop {
+        width: 80%;
+    }
+}

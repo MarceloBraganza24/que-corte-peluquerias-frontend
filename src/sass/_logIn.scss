@@ -1,0 +1,57 @@
+.loginContainer {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    @include disFC();
+    position: fixed;
+    color: black;
+    &__credentials {
+        background-color: white;
+        width: 50%;
+        height: auto;
+        padding: 5vh 4vh;
+        border-radius: 5vh;
+        &__phrase {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            &__title {
+                font-size: 60px;
+                letter-spacing: 1vh;
+            }
+        }
+        &__form {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+            &__label-input {
+                display: flex;
+                flex-direction: column;
+                &__label {
+                    font-size: 25px;
+                }
+                &__input {
+                    width: 70%;
+                    height: 35px;
+                }
+            }
+            &__btn {
+                width: 100%;
+                height: auto;
+                @include disFC();
+                text-decoration: none;
+                padding-top: 2vh;
+                &__prop {
+                    background-color: black;
+                    width: 70%;
+                    height: 40px;
+                    font-size: 20px;
+                    color: yellow;
+                    border-radius: 5vh;
+                }
+            }
+        }
+    }
+}
