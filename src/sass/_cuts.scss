@@ -1,0 +1,50 @@
+.cutsContainer {
+    background-color: black;
+    width: 100%;
+    height: auto;
+    @include disFC();
+    &__cuts {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 4vh;
+        gap: 2vh;
+        &__cut {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            &__prop {
+                width: 90%;
+                border-radius: 2vh;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+.cutsContainer {
+    background-color: black;
+    width: 100%;
+    height: auto;
+    @include disFC();
+    padding: 15vh 0vh 1vh 0vh;
+    &__cuts {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        padding: 1vh;
+        gap: 2vh;
+        &__cut {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            &__prop {
+                width: 90%;
+                border-radius: 2vh;
+            }
+        }
+    }
+}
+}

@@ -1,0 +1,116 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+h2 {
+    margin-bottom: 0;
+}
+.no-scroll {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+.spinner {
+    border: 5px solid yellow; 
+    border-top: 5px solid black; 
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.no-scroll::-webkit-scrollbar {
+display: none; 
+}
+@mixin disFC {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.warningLogin {
+    background-color: black;
+    width: 100%;
+    height: auto;
+    @include disFC();
+    padding: 1vh;
+    &__prop {
+        color: white;
+    }
+    &__link {
+        text-decoration: none;
+        color: white;
+        &:hover {
+            color: yellow;
+        }
+    }
+}
+
+@import "singUp";
+@import "logIn";
+@import "navBar";
+@import "footer";
+@import "home";
+@import "shifts";
+@import "itemShift";
+@import "shiftsList";
+@import "logOut";
+@import "about";
+@import "cuts";
+@import "partners";
+@import "partnersList";
+@import "itemPartner";
+@import "providersList";
+@import "itemProvider";
+@import "productsList";
+@import "itemProduct";
+@import "itemUser";
+@import "usersList";
+@import "hMenu";
+@import "modal";
+@import "prices";
+@import "myPayments";
+@import "myShifts";
+@import "itemMyShift";
+@import "resetPass";
+@import "sendMail";
+
+
+
+
+@media (max-width: 480px) {
+.warningLogin {
+    padding-top: 1vh;
+    font-size: 15px;
+}
+}
+
+@media (min-width: 1540px) {
+.aboutContainer {
+    &__descriptionContainer {
+        font-size: 30px;
+        padding: 10vh 4vh;
+    }
+}
+.partnersContainer {
+    &__form {
+        padding: 11vh 0vh;
+    }
+}    
+.shiftsContainer {
+    &__form {
+        padding: 15vh 0vh;
+    }
+}    
+}
