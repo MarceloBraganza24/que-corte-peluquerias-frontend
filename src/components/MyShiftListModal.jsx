@@ -9,6 +9,7 @@ import moment from 'moment-timezone'
 
 const MyShiftListModal = ({id,hairdresser,first_name,last_name,service,email,date,schedule,handleUpdateMyShiftModalLocal,shifts,holidaysData}) => {
     const adjustedDate = moment.tz(date, 'America/Argentina/Buenos_Aires').startOf('day').toDate();
+    const formatAdjustedDate = moment(adjustedDate).format('YYYY-MM-DD')
     const adjustedNewDatee = new Date(adjustedDate);
     const apiUrl = import.meta.env.VITE_API_URL;
     const [confirmationDelShiftsModal, handleConfirmationDelShiftsModal] = useState(false);
@@ -94,7 +95,15 @@ const MyShiftListModal = ({id,hairdresser,first_name,last_name,service,email,dat
     });
     //console.log(uniqueElementsAleSchedules)
 
-
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
 
     const optionsScheduleISh = [];
 
@@ -235,9 +244,24 @@ const MyShiftListModal = ({id,hairdresser,first_name,last_name,service,email,dat
         }
     }
 
+    function regexOnlyLetters(str) {
+        const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+        return regex.test(str);
+    }
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
     const handleInputFirstNameISh = (e) => {
-        const texto = e.target.value.replace(/[^A-Za-zñÑ\s]/gi, '');
-        setInputFirstNameISh(texto);
+        const texto = e.target.value;
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputFirstNameISh(textToSaved)
+        }
         texto===first_name?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(selectHairdresserISh!==hairdresser && selectHairdresserISh!=='')setInputChanges(true);
@@ -250,8 +274,12 @@ const MyShiftListModal = ({id,hairdresser,first_name,last_name,service,email,dat
     };
 
     const handleInputLastNameISh = (e) => {
-        const texto = e.target.value.replace(/[^A-Za-zñÑ\s]/gi, '');
-        setInputLastNameISh(texto);
+        const texto = e.target.value;
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputLastNameISh(textToSaved)
+        }
         texto===last_name?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(selectHairdresserISh!==hairdresser && selectHairdresserISh!=='')setInputChanges(true);
@@ -292,7 +320,9 @@ const MyShiftListModal = ({id,hairdresser,first_name,last_name,service,email,dat
 
     const handleInputEmailISh = (e) => {
         const texto = e.target.value;
-        setInputEmailISh(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputEmailISh(textToSaved)
         texto===email?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(selectHairdresserISh!==hairdresser && selectHairdresserISh!=='')setInputChanges(true);
@@ -360,10 +390,29 @@ const MyShiftListModal = ({id,hairdresser,first_name,last_name,service,email,dat
     let existsUniqueAleMorAftSchedules = combinedAleMorAftSchedules.includes(selectScheduleOptionISh?selectScheduleOptionISh:schedule);
     let existsUniqueAleTuesdaySchedules = originalOptionsAleTuesdayScheduleISh.includes(selectScheduleOptionISh?selectScheduleOptionISh:schedule);
     let existsUniqueAleSatSchedules = originalOptionsAleSaturdayScheduleISh.includes(selectScheduleOptionISh?selectScheduleOptionISh:schedule);
+
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const handleBtnUpdShift = async() => {
         document.getElementById('btnUpdateShift').style.display = 'none';
         setShowSpinner(true);
-        if (dateMShLFormated.getDay() == 0 || dateMShLFormated.getDay() == 1) {
+        if((selectHairdresserISh == hairdresser || selectHairdresserISh == '') && (inputFirstNameISh == first_name || inputFirstNameISh == '') && (inputLastNameISh == last_name || inputLastNameISh == '') && (inputServiceISh == service || inputServiceISh == '') && (inputEmailISh == email || inputEmailISh == '') && (formatAdjustedDate == formatInputDate) && (selectScheduleOptionISh == schedule || selectScheduleOptionISh == '')) {
+            toast('No tienes cambios para actualizar!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            setShowSpinner(false);
+            document.getElementById('btnUpdateShift').style.display = 'block';
+        } else if (dateMShLFormated.getDay() == 0 || dateMShLFormated.getDay() == 1) {
             toast('Elige un dia entre martes y sabado!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -621,7 +670,52 @@ const MyShiftListModal = ({id,hairdresser,first_name,last_name,service,email,dat
             });
             setShowSpinner(false);
             document.getElementById('btnUpdateShift').style.display = 'block';
-        } else if(inputFirstNameISh !== first_name || inputLastNameISh !== last_name || inputEmailISh !== email || inputDateISh !== formatInputDate || selectScheduleOptionISh !== schedule) {
+        } else if (!isValidUTF8(inputFirstNameISh?inputFirstNameISh:first_name)) {
+            toast('El campo nombre contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            setTimeout(() => {
+                setShowSpinner(false);
+                document.getElementById('btnUpdateShift').style.display = 'block';
+            }, 1500);
+        } else if (!isValidUTF8(inputLastNameISh?inputLastNameISh:last_name)) {
+            toast('El campo apellido contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            setTimeout(() => {
+                setShowSpinner(false);
+                document.getElementById('btnUpdateShift').style.display = 'block';
+            }, 1500);
+        } else if (!isValidUTF8(inputEmailISh?inputEmailISh:email)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            setTimeout(() => {
+                setShowSpinner(false);
+                document.getElementById('btnUpdateShift').style.display = 'block';
+            }, 1500);
+        } else {
             const shiftToUpdate = {
                 hairdresser: selectHairdresserISh,
                 first_name: inputFirstNameISh?inputFirstNameISh:first_name,
@@ -631,21 +725,10 @@ const MyShiftListModal = ({id,hairdresser,first_name,last_name,service,email,dat
                 date: formatInputDate?formatInputDate:adjustedDate,
                 schedule: selectScheduleOptionISh?selectScheduleOptionISh:schedule
             }
-            /* console.log(shiftToUpdate)
-            toast('Has actualizado el turno correctamente!', {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            }); */
             const response = await fetch(`${apiUrl}/api/shifts/${id}`, {
                 method: 'PUT',         
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
                 },
                 body: JSON.stringify(shiftToUpdate)
             })
@@ -679,21 +762,7 @@ const MyShiftListModal = ({id,hairdresser,first_name,last_name,service,email,dat
                 });
                 document.getElementById('btnUpdateShift').style.display = 'block';
                 setShowSpinner(false);
-            } else if(data.error === 'There is already a shift with that data') {
-                toast('No tienes cambios para actualizar!', {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                document.getElementById('btnUpdateShift').style.display = 'block';
-                setShowSpinner(false);
-                setInputChanges(false);
-            }   
+            }
         }
     };
 

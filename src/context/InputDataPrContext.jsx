@@ -9,11 +9,27 @@ export const ParentPrComponent = ({children}) => {
   const [inputPhonePr, setInputPhonePr] = useState('');
   const [inputEmailPr, setInputEmailPr] = useState('');
 
+  const cleanText = (text) => {
+    const replacements = {
+      'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+      'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+      'ñ': 'n', 'Ñ': 'N'
+    };
+  
+    return text.split('').map(char => replacements[char] || char).join('');
+  };
+
+  function cleanString(input) {
+      let trimmed = input.trim();
+      let cleaned = trimmed.replace(/\s+/g, ' ');
+      return cleaned;
+  }
+
   const handleInputBusinessNamePr = (e) => {
     const inputValue = e.target.value;
-    if (/^[a-zA-ZñÑ0-9 ]*$/.test(inputValue)) {
-      setInputBusinessNamePr(inputValue);
-    }
+    const textCleaned = cleanString(inputValue);
+    const textToSaved = cleanText(textCleaned);
+    setInputBusinessNamePr(textToSaved)
   };
 
   const handleInputCuitCuilPr = (e) => {
@@ -32,7 +48,9 @@ export const ParentPrComponent = ({children}) => {
 
   const handleInputEmailPr = (e) => {
     const inputValue = e.target.value;
-    setInputEmailPr(inputValue);
+    const textCleaned = cleanString(inputValue);
+    const textToSaved = cleanText(textCleaned);
+    setInputEmailPr(textToSaved)
   };
   
   const handleEmptyInputBusinessNamePr = () => {

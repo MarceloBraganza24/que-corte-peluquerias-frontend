@@ -12,11 +12,70 @@ const Login = () => {
     const [showSpinner, setShowSpinner] = useState(false);
     const apiUrl = import.meta.env.VITE_API_URL;
 
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
+    const validateEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
+    const handleInputEmail = (e) => {
+        const texto = e.target.value;
+        setEmail(cleanString(texto))
+    }
+
+    const handleInputPassword = (e) => {
+        const texto = e.target.value;
+        setPassword(cleanString(texto))
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             if(!email || !password) {
                 toast('Debes completar todos los campos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!validateEmail(email)) {
+                toast('El email no es válido!', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(email)) {
+                toast('El campo email contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(password)) {
+                toast('El campo contraseña contiene caracteres no válidos', {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -87,11 +146,11 @@ const Login = () => {
                     <form className='loginContainer__credentials__form'>
                         <div className='loginContainer__credentials__form__label-input'>
                             <h2 className='loginContainer__credentials__form__label-input__label'>Email</h2>
-                            <input className='loginContainer__credentials__form__label-input__input' type='email' placeholder='Email' onChange={(e) => {setEmail(e.target.value)}}/>
+                            <input className='loginContainer__credentials__form__label-input__input' type='email' placeholder='Email' value={email} onChange={handleInputEmail}/>
                         </div>
                         <div className='loginContainer__credentials__form__label-input'>
                             <h2 className='loginContainer__credentials__form__label-input__label'>Contraseña</h2>
-                            <input className='loginContainer__credentials__form__label-input__input' type='password' placeholder='Contraseña' onChange={(e) => {setPassword(e.target.value)}}/>
+                            <input className='loginContainer__credentials__form__label-input__input' type='password' placeholder='Contraseña' value={password} onChange={handleInputPassword}/>
                         </div>     
                         <div className='loginContainer__credentials__form__btn'>
                             <button className='loginContainer__credentials__form__btn__prop' onClick={handleSubmit}>Iniciar sesión</button>

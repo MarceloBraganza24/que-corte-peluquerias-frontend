@@ -77,10 +77,10 @@ const ShiftsList = () => {
     const shiftsOrganized = shifts.sort(compararFechas);
     
     function filtrarPorFecha(shiftsOrganized, fecha) {
-        return shiftsOrganized.filter(objeto => objeto.date === fecha);
+        return shiftsOrganized.filter(objeto => objeto.date == fecha);
     }
     
-    const dateDesired = selectedYearValue + '-' + (selectedMonthValue==='1'?'01':selectedMonthValue==='2'?'02':selectedMonthValue==='3'?'03':selectedMonthValue==='4'?'04':selectedMonthValue==='5'?'05':selectedMonthValue==='6'?'06':selectedMonthValue==='7'?'07':selectedMonthValue==='8'?'08':selectedMonthValue==='9'?'09':selectedMonthValue==='10'?'10':selectedMonthValue==='11'?'11':selectedMonthValue==='12'?'12':selectedMonthValue==='') + '-' + (selectedDayValue==='1'?'01':selectedDayValue==='2'?'02':selectedDayValue==='3'?'03':selectedDayValue==='4'?'04':selectedDayValue==='5'?'05':selectedDayValue==='6'?'06':selectedDayValue==='7'?'07':selectedDayValue==='8'?'08':selectedDayValue==='9'?'09':selectedDayValue)
+    const dateDesired = selectedYearValue + '-' + (selectedMonthValue=='1'?'01':selectedMonthValue=='2'?'02':selectedMonthValue=='3'?'03':selectedMonthValue=='4'?'04':selectedMonthValue=='5'?'05':selectedMonthValue=='6'?'06':selectedMonthValue=='7'?'07':selectedMonthValue=='8'?'08':selectedMonthValue=='9'?'09':selectedMonthValue=='10'?'10':selectedMonthValue=='11'?'11':selectedMonthValue=='12'?'12':selectedMonthValue=='') + '-' + (selectedDayValue=='1'?'01':selectedDayValue=='2'?'02':selectedDayValue=='3'?'03':selectedDayValue=='4'?'04':selectedDayValue=='5'?'05':selectedDayValue=='6'?'06':selectedDayValue=='7'?'07':selectedDayValue=='8'?'08':selectedDayValue=='9'?'09':selectedDayValue)
     const objetosFiltrados = filtrarPorFecha(shiftsOrganized, dateDesired);
 
     const dateDesiredMasUno = new Date(dateDesired)
@@ -199,12 +199,27 @@ const ShiftsList = () => {
         
         const interval = setInterval(() => {
             menuOptionsModal&&handleMenuOptionsModal(false);
-            async function fetchData() {
+            async function fetchShiftsData() {
                 const response = await fetch(`${apiUrl}/api/shifts`)
                 const shiftsAll = await response.json();
-                setShifts(shiftsAll.data)
+                if(!response.ok) {
+                    toast('No se pudieron obtener los turnos disponibles, contacte a la peluquería', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                } else {
+                    setShifts(shiftsAll.data)
+                }
             }
-            fetchData();
+            if(shifts.length != 0) {
+                fetchShiftsData();
+            }
             async function fetchHolidaysData() {
                 const response = await fetch(`${apiUrl}/api/holidays`)
                 const holidaysAll = await response.json();
@@ -261,7 +276,20 @@ const ShiftsList = () => {
         async function fetchData() {
             const response = await fetch(`${apiUrl}/api/shifts`)
             const shiftsAll = await response.json();
-            setShifts(shiftsAll.data)
+            if(!response.ok) {
+                toast('No se pudieron obtener los turnos, contacte al administrador', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else {
+                setShifts(shiftsAll.data)
+            }
         }
         fetchData();
         async function fetchHolidaysData() {
@@ -353,11 +381,49 @@ const ShiftsList = () => {
     const concat = formattedDate + ' ' + (!isAddSchedule?(selectScheduleOptionShL?selectScheduleOptionShL:optionsScheduleSh[0]):concatAddSchedules);
     const inputDateShLFormated = new Date(concat);
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const handleBtnCreateShift = async() => {
         if(!inputFirstNameShL || !inputLastNameShL || !inputDateShL) {
             toast('Debes completar todos los campos!', {
                 position: "top-right",
                 autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputFirstNameShL)) {
+            toast('El campo nombre contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputLastNameShL)) {
+            toast('El campo apellido contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputEmailShL)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

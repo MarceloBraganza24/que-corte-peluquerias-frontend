@@ -270,25 +270,50 @@ const CreateShiftModalMobile = ({setIsOpenCreateShiftModalLocalMobile}) => {
         }
     };
 
-    const regex = /^[A-Za-zñÑ\s]*$/;
+    function regexOnlyLetters(str) {
+        const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+        return regex.test(str);
+    }
+
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
 
     const handleInputFirstNameShL = (e) => {
         const texto = e.target.value;
-        if(regex.test(texto)) {
-        setInputFirstNameShL(texto);
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputFirstNameShL(textToSaved)
         }
     };
 
     const handleInputLastNameShL = (e) => {
         const texto = e.target.value;
-        if(regex.test(texto)) {
-          setInputLastNameShL(texto);
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputLastNameShL(textToSaved)
         }
     };
 
     const handleInputEmailShL = (e) => {
-    const texto = e.target.value;
-    setInputEmailShL(texto);
+        const texto = e.target.value;
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputEmailShL(textToSaved)
     };
 
     const handleInputAddScheduleHShLM = (e) => {
@@ -370,11 +395,49 @@ const CreateShiftModalMobile = ({setIsOpenCreateShiftModalLocalMobile}) => {
     const concat = formattedDate + ' ' + (!isAddSchedule?(selectScheduleOptionShL?selectScheduleOptionShL:optionsScheduleSh[0]):concatAddSchedules);
     const inputDateShLFormated = new Date(concat);
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+    
     const handleBtnCreateShift = async() => {
         if(!inputFirstNameShL || !inputLastNameShL || !inputDateShL) {
             toast('Debes completar todos los campos!', {
                 position: "top-right",
                 autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputFirstNameShL)) {
+            toast('El campo nombre contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputLastNameShL)) {
+            toast('El campo apellido contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputEmailShL)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

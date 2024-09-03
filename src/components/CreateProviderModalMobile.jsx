@@ -21,9 +21,27 @@ const CreateProviderModalMobile = ({setIsOpenCreateProviderModalLocalMobile}) =>
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
 
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
     const handleInputBusinessNamePrL = (e) => {
         const texto = e.target.value;
-        setInputBusinessNamePrL(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputBusinessNamePrL(textToSaved)
     };
 
     const handleInputCuitCuilPrL = (e) => {
@@ -42,7 +60,9 @@ const CreateProviderModalMobile = ({setIsOpenCreateProviderModalLocalMobile}) =>
 
     const handleInputEmailPrL = (e) => {
         const texto = e.target.value;
-        setInputEmailPrL(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputEmailPrL(textToSaved)
     };
 
     const closeM = () => {
@@ -62,11 +82,60 @@ const CreateProviderModalMobile = ({setIsOpenCreateProviderModalLocalMobile}) =>
         setInputEmailPrL('')
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const handleBtnCreatePartner = async() => {
         if(!inputBusinessNamePrL || !inputCuitCuilPrL || !inputPhonePrL || !inputEmailPrL) {
             toast('Debes completar todos los campos!', {
                 position: "top-right",
                 autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputBusinessNamePrL)) {
+            toast('El campo razón social contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputCuitCuilPrL)) {
+            toast('El campo CUIT-CUIL contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputPhonePrL)) {
+            toast('El campo teléfono contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputEmailPrL)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

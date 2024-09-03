@@ -191,9 +191,34 @@ const ShiftsListModal = ({id,hairdresser,first_name,last_name,service,email,date
         if(selectScheduleOptionISh!==schedule && selectScheduleOptionISh!=='')setInputChanges(true);
     };
 
+    function regexOnlyLetters(str) {
+        const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+        return regex.test(str);
+    }
+
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
     const handleInputFirstNameISh = (e) => {
-        const texto = e.target.value.replace(/[^A-Za-zñÑ\s]/gi, '');
-        setInputFirstNameISh(texto);
+        const texto = e.target.value;
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputFirstNameISh(textToSaved)
+        }
         texto===first_name?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(selectOptionHairdresserISh!==hairdresser && selectOptionHairdresserISh!=='')setInputChanges(true);
@@ -207,8 +232,12 @@ const ShiftsListModal = ({id,hairdresser,first_name,last_name,service,email,date
     };
 
     const handleInputLastNameISh = (e) => {
-        const texto = e.target.value.replace(/[^A-Za-zñÑ\s]/gi, '');
-        setInputLastNameISh(texto);
+        const texto = e.target.value;
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputLastNameISh(textToSaved)
+        }
         texto===last_name?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(selectOptionHairdresserISh!==hairdresser && selectOptionHairdresserISh!=='')setInputChanges(true);
@@ -237,7 +266,9 @@ const ShiftsListModal = ({id,hairdresser,first_name,last_name,service,email,date
 
     const handleInputEmailISh = (e) => {
         const texto = e.target.value;
-        setInputEmailISh(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputEmailISh(textToSaved)
         texto===email?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(selectOptionHairdresserISh!==hairdresser && selectOptionHairdresserISh!=='')setInputChanges(true);
@@ -332,6 +363,12 @@ const ShiftsListModal = ({id,hairdresser,first_name,last_name,service,email,date
     let existsUniqueAleMorAftSchedules = combinedAleMorAftSchedules.includes(selectScheduleOptionISh?selectScheduleOptionISh:schedule);
     let existsUniqueAleTuesdaySchedules = originalOptionsAleTuesdayScheduleISh.includes(selectScheduleOptionISh?selectScheduleOptionISh:schedule);
     let existsUniqueAleSatSchedules = originalOptionsAleSaturdayScheduleISh.includes(selectScheduleOptionISh?selectScheduleOptionISh:schedule);
+
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const handleBtnUpdShift = async() => {
         if( (inputFirstNameISh == '' || inputFirstNameISh == first_name) && (selectOptionHairdresserISh == hairdresser) && (inputLastNameISh == '' || inputLastNameISh == last_name) && (inputServiceISh == '' || inputServiceISh == service) && (inputEmailISh == '' || inputEmailISh == email) && (inputDateISh == '' || inputDateISh == date) && (selectScheduleOptionISh == '' || selectScheduleOptionISh == schedule) ) {
             toast('No tienes cambios para actualizar', {
@@ -584,6 +621,39 @@ const ShiftsListModal = ({id,hairdresser,first_name,last_name,service,email,date
                 progress: undefined,
                 theme: "dark",
             });
+        } else if (!isValidUTF8(inputFirstNameISh)) {
+            toast('El campo nombre contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputLastNameISh)) {
+            toast('El campo apellido contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputEmailISh)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         } else {
             document.getElementById('btnUpdateShift').style.display = 'none';
             setShowSpinner(true);
@@ -634,21 +704,7 @@ const ShiftsListModal = ({id,hairdresser,first_name,last_name,service,email,date
                 });
                 document.getElementById('btnUpdateShift').style.display = 'block';
                 setShowSpinner(false);
-            } else if(data.error === 'There is already a shift with that data') {
-                toast('No tienes cambios para actualizar!', {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                document.getElementById('btnUpdateShift').style.display = 'block';
-                setShowSpinner(false);
-                setInputChanges(false);
-            }  
+            }
         }
     };
 

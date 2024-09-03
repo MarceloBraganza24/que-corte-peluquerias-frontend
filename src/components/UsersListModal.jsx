@@ -19,9 +19,34 @@ const UsersListModal = ({id,first_name,last_name,email,role,handleUpdateUsersMod
     const [inputChanges, setInputChanges] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
 
+    function regexOnlyLetters(str) {
+        const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+        return regex.test(str);
+    }
+
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
     const handleInputFirstNameIU = (e) => {
-        const texto = e.target.value.replace(/[^A-Za-zñÑ\s]/gi, '');
-        setInputFirstNameIU(texto);
+        const texto = e.target.value;
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputFirstNameIU(textToSaved)
+        } 
         texto===first_name?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(inputLastNameIU!==last_name && inputLastNameIU!=='')setInputChanges(true);
@@ -30,8 +55,12 @@ const UsersListModal = ({id,first_name,last_name,email,role,handleUpdateUsersMod
     };
 
     const handleInputLastNameIU = (e) => {
-        const texto = e.target.value.replace(/[^A-Za-zñÑ\s]/gi, '');
-        setInputLastNameIU(texto);
+        const texto = e.target.value;
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputLastNameIU(textToSaved)
+        }
         texto===last_name?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(inputFirstNameIU!==first_name && inputFirstNameIU!=='')setInputChanges(true);
@@ -41,7 +70,9 @@ const UsersListModal = ({id,first_name,last_name,email,role,handleUpdateUsersMod
 
     const handleInputEmailIU = (e) => {
         const texto = e.target.value;
-        setInputEmailIU(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputEmailIU(textToSaved)
         texto===email?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(inputFirstNameIU!==first_name && inputFirstNameIU!=='')setInputChanges(true);
@@ -68,8 +99,24 @@ const UsersListModal = ({id,first_name,last_name,email,role,handleUpdateUsersMod
         return regex.test(email);
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const handleBtnUpdUser = async() => {
-        if (!validateEmail(inputEmailIU?inputEmailIU:email)) {
+        if ((inputFirstNameIU == first_name || inputFirstNameIU == '') && (inputLastNameIU == last_name || inputLastNameIU == '') && (inputEmailIU == email || inputEmailIU == '') && (inputRoleIU?inputRoleIU:optionsRoleIU[0]) == role) {
+            toast('No tienes cambios para actualizar!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!validateEmail(inputEmailIU?inputEmailIU:email)) {
             toast('El email no es válido!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -80,7 +127,40 @@ const UsersListModal = ({id,first_name,last_name,email,role,handleUpdateUsersMod
                 progress: undefined,
                 theme: "dark",
             });
-        } else if(inputFirstNameIU !== first_name || inputLastNameIU !== last_name || inputEmailIU !== email || inputRoleIU !== role) {
+        } else if (!isValidUTF8(inputFirstNameIU)) {
+            toast('El campo nombre contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputLastNameIU)) {
+            toast('El campo apellido contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputEmailIU)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else {
             document.getElementById('btnUpdateUser').style.display = 'none';
             setShowSpinner(true);
             const userToUpdate = {
@@ -92,7 +172,7 @@ const UsersListModal = ({id,first_name,last_name,email,role,handleUpdateUsersMod
             const response = await fetch(`${apiUrl}/api/users/${id}`, {
                 method: 'PUT',         
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8'
                 },
                 body: JSON.stringify(userToUpdate)
             })
@@ -126,20 +206,6 @@ const UsersListModal = ({id,first_name,last_name,email,role,handleUpdateUsersMod
                     theme: "dark",
                 });
                 setShowSpinner(false);
-            } else if(data.error === 'There is already a user with that data') {
-                toast('No tienes cambios para actualizar!', {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                document.getElementById('btnUpdateUser').style.display = 'block';
-                setShowSpinner(false);
-                setInputChanges(false);
             }
         }
     };

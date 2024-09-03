@@ -10,13 +10,27 @@ export const PricesParentComponent = ({children}) => {
   const [partnersPrices, setPartnersPrices] = useState([]);
   const [prices, setPrices] = useState([]);
   
+  const cleanText = (text) => {
+    const replacements = {
+      'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+      'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+      'ñ': 'n', 'Ñ': 'N'
+    };
+  
+    return text.split('').map(char => replacements[char] || char).join('');
+  };
 
-  const regex = /^[a-zA-Z0-9ñÑ\s]+$/;
+  function cleanString(input) {
+      let trimmed = input.trim();
+      let cleaned = trimmed.replace(/\s+/g, ' ');
+      return cleaned;
+  }
 
   const handleInputCreatePriceOf = (e) => {
     const texto = e.target.value;
-    regex.test(texto);
-    setInputCreatePriceOf(texto);
+    const textCleaned = cleanString(texto);
+    const textToSaved = cleanText(textCleaned);
+    setInputCreatePriceOf(textToSaved)
   };
 
   const handleInputCreateValuePriceOf = (e) => {

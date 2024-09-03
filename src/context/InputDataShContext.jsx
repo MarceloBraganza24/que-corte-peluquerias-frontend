@@ -20,6 +20,22 @@ export const ParentComponent = ({children}) => {
         setInputOptionServiceSh('Elija su servicio')
     },[isMembershipFeePaid]) */
 
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
     useEffect(() => {
         const interval = setInterval(() => {
             async function fetchPricesData() {
@@ -115,20 +131,34 @@ export const ParentComponent = ({children}) => {
         }, 10000)
     },[])   
 
+    function regexOnlyLetters(str) {
+        const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+        return regex.test(str);
+    }
 
     const handleInputFirstNameSh = (e) => {
-        const texto = e.target.value.replace(/[^A-Za-zñÑ\s]/gi, '');
-        setInputFirstNameSh(texto);
+        const texto = e.target.value;
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputFirstNameSh(textToSaved)
+        }
     };
 
     const handleInputLastNameSh = (e) => {
-        const texto = e.target.value.replace(/[^A-Za-zñÑ\s]/gi, '');
-        setInputLastNameSh(texto);
+        const texto = e.target.value;
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputLastNameSh(textToSaved)
+        }
     };
 
     const handleInputEmailSh = (e) => {
-    const texto = e.target.value;
-        setInputEmailSh(texto);
+        const texto = e.target.value;
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputEmailSh(textToSaved)
     };
 
     const handleInputDateSh = (e) => {

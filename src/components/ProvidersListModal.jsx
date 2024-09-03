@@ -15,9 +15,27 @@ const ProvidersListModal = ({id,businessName,cuitCuil,phone,email,handleUpdatePr
     const [inputChanges, setInputChanges] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
 
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
     const handleInputBusinessNameIPr = (e) => {
         const texto = e.target.value;
-        setInputBusinessNameIPr(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputBusinessNameIPr(textToSaved)
         texto===businessName?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(inputCuitCuilIPr!=cuitCuil && inputCuitCuilIPr!='')setInputChanges(true);
@@ -51,7 +69,9 @@ const ProvidersListModal = ({id,businessName,cuitCuil,phone,email,handleUpdatePr
 
     const handleInputEmailIPr = (e) => {
         const inputValue = e.target.value;
-        setInputEmailIPr(inputValue);
+        const textCleaned = cleanString(inputValue);
+        const textToSaved = cleanText(textCleaned);
+        setInputEmailIPr(textToSaved)
         inputValue===email?setInputChanges(false):setInputChanges(true);
         inputValue===''&&setInputChanges(false);
         if(inputBusinessNameIPr!==businessName && inputBusinessNameIPr!=='')setInputChanges(true);
@@ -68,11 +88,81 @@ const ProvidersListModal = ({id,businessName,cuitCuil,phone,email,handleUpdatePr
         return regex.test(email);
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const handleBtnUpdProvider = async() => {
         document.getElementById('btnUpdateProvider').style.display = 'none';
         setShowSpinner(true);
         if (!validateEmail(inputEmailIPr?inputEmailIPr:email)) {
             toast('El email no es válido!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            document.getElementById('btnUpdateProvider').style.display = 'block';
+            setShowSpinner(false);
+        } else if (!isValidUTF8(inputBusinessNameIPr)) {
+            toast('El campo razón social contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            document.getElementById('btnUpdateProvider').style.display = 'block';
+            setShowSpinner(false);
+        } else if (!isValidUTF8(inputCuitCuilIPr)) {
+            toast('El campo CUIT-CUIL contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            document.getElementById('btnUpdateProvider').style.display = 'block';
+            setShowSpinner(false);
+        } else if (!isValidUTF8(inputPhoneIPr)) {
+            toast('El campo teléfono contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            document.getElementById('btnUpdateProvider').style.display = 'block';
+            setShowSpinner(false);
+        } else if (!isValidUTF8(inputEmailIPr)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            document.getElementById('btnUpdateProvider').style.display = 'block';
+            setShowSpinner(false);
+        } else if ((inputBusinessNameIPr == businessName || inputBusinessNameIPr == '') && (inputCuitCuilIPr == cuitCuil || inputCuitCuilIPr == '') && (inputPhoneIPr == phone || inputPhoneIPr == '') && (inputEmailIPr == email || inputEmailIPr == '')) {
+            toast('No tienes cambios para actualizar!', {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -157,20 +247,6 @@ const ProvidersListModal = ({id,businessName,cuitCuil,phone,email,handleUpdatePr
                 });
                 document.getElementById('btnUpdateProvider').style.display = 'block';
                 setShowSpinner(false);
-            } else if(data.error === 'There is already a provider with that data') {
-                toast('No tienes cambios para actualizar!', {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                document.getElementById('btnUpdateProvider').style.display = 'block';
-                setShowSpinner(false);
-                setInputChanges(false);
             }
         }
     };

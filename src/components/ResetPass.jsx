@@ -11,6 +11,8 @@ const ResetPass = () => {
     const [emailUsercookie, setEmailUserCookie] = useState('');
     const apiUrl = import.meta.env.VITE_API_URL;
 
+
+
     useEffect(() => {
 
         const interval = setInterval(() => {
@@ -68,19 +70,17 @@ const ResetPass = () => {
         }, 10000)
     }, []);
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const ConfirmationResetPassModal = ({handleResetPassModalLocal}) => {
 
         const resetPass = async () => {
-            setShowSpinner(true);
-            const response = await fetch(`${apiUrl}/api/users/reset-pass?cookie=${emailUsercookie}&password=${password}`, {
-                method: 'POST',         
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            const data = await response.json();
-            if(response.ok) {
-                toast('La contraseña se modificó correctamente!', {
+
+            if (!isValidUTF8(password)) {
+                toast('El campo contiene caracteres no válidos', {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -90,38 +90,58 @@ const ResetPass = () => {
                     progress: undefined,
                     theme: "dark",
                 });
-                setTimeout(() => {
-                    window.location.href = '/login';
-                }, 2500);
+            } else {
+                setShowSpinner(true);
+                const response = await fetch(`${apiUrl}/api/users/reset-pass?cookie=${emailUsercookie}&password=${password}`, {
+                    method: 'POST',         
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                const data = await response.json();
+                if(response.ok) {
+                    toast('La contraseña se modificó correctamente!', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2500);
+                }
+                if(data.error === 'no token provide') {
+                    toast('El link ha expirado!', {
+                        position: "top-right",
+                        autoClose: 2500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                    setTimeout(() => {
+                        window.location.href = '/sendMail';
+                    }, 2500);
+                } else if(data.error === 'do not enter the same password') {
+                    toast('No puedes ingresar la misma contraseña!', {
+                        position: "top-right",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                    setShowSpinner(false);
+                }
             }
-            if(data.error === 'no token provide') {
-                toast('El link ha expirado!', {
-                    position: "top-right",
-                    autoClose: 2500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                setTimeout(() => {
-                    window.location.href = '/sendMail';
-                }, 2500);
-            } else if(data.error === 'do not enter the same password') {
-                toast('No puedes ingresar la misma contraseña!', {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                setShowSpinner(false);
-            }
-            
         }
 
         const handleBtnConfirmationResetPassBtnNo = () => {

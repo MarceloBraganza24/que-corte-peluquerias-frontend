@@ -16,9 +16,27 @@ const ProductsListModalMobile = ({id,title,description,price,stock,category,hand
     const [showSpinner, setShowSpinner] = useState(false);
     const apiUrl = import.meta.env.VITE_API_URL;
 
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
     const handleInputTitleIProd = (e) => {
         const texto = e.target.value;
-        setInputTitleIProd(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputTitleIProd(textToSaved)
         texto==title?setInputChanges(false):setInputChanges(true);
         texto==''&&setInputChanges(false);
         if(inputDescriptionIProd!=description && inputDescriptionIProd!='')setInputChanges(true);
@@ -29,7 +47,9 @@ const ProductsListModalMobile = ({id,title,description,price,stock,category,hand
 
     const handleInputDescriptionIProd = (e) => {
         const texto = e.target.value;
-        setInputDescriptionIProd(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputDescriptionIProd(textToSaved)
         texto==description?setInputChanges(false):setInputChanges(true);
         texto==''&&setInputChanges(false);
         if(inputTitleIProd!=title && inputTitleIProd!='')setInputChanges(true);
@@ -66,7 +86,9 @@ const ProductsListModalMobile = ({id,title,description,price,stock,category,hand
 
     const handleInputCategoryIProd = (e) => {
         const texto = e.target.value;
-        setInputCategoryIProd(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputCategoryIProd(textToSaved)
         texto===category?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(inputTitleIProd!==title && inputTitleIProd!=='')setInputChanges(true);
@@ -79,8 +101,80 @@ const ProductsListModalMobile = ({id,title,description,price,stock,category,hand
         handleConfirmationDelProductsModalMobile(true);
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+    
     const handleBtnUpdProduct = async() => {
-        if(inputTitleIProd !== title || inputDescriptionIProd !== description || inputPriceIProd !== price || inputStockIProd !== stock || inputCategoryIProd !== category) {
+
+        if ((inputTitleIProd == title || inputTitleIProd == '') && (inputDescriptionIProd == description || inputDescriptionIProd == '') && (inputPriceIProd == price || inputPriceIProd == '') && (inputStockIProd == stock || inputStockIProd == '') && (inputCategoryIProd == category || inputCategoryIProd == '')) {
+            toast('No tienes cambios para actualizar!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputTitleIProd)) {
+            toast('El campo título contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputDescriptionIProd)) {
+            toast('El campo descripción contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputPriceIProd)) {
+            toast('El campo precio contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputStockIProd)) {
+            toast('El campo stock contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputCategoryIProd)) {
+            toast('El campo categoría contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else {
             document.getElementById('btnUpdateProduct').style.display = 'none';
             setShowSpinner(true);
             const productToUpdate = {
@@ -128,20 +222,6 @@ const ProductsListModalMobile = ({id,title,description,price,stock,category,hand
                 });
                 document.getElementById('btnUpdateProduct').style.display = 'block';
                 setShowSpinner(false);
-            }  else if(data.error === 'There is already a product with that data') {
-                toast('No tienes cambios para actualizar!', {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,        
-                    theme: "dark",
-                });
-                document.getElementById('btnUpdateProduct').style.display = 'block';
-                setShowSpinner(false);
-                setInputChanges(false);
             }
         }
     };

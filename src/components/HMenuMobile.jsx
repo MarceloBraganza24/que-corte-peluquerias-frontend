@@ -144,7 +144,7 @@ const MenuOptions = ({isLoggedIn,role}) => {
             </Link>
           </>
           :
-          isLoggedIn && role==='premium'?
+          isLoggedIn && (role==='premium' || role==='user')&&
           <>
             <Link to={"/shifts"} className='menuOptionsMobile__item'>
                 - Turnos
@@ -163,21 +163,6 @@ const MenuOptions = ({isLoggedIn,role}) => {
             </Link>
             <Link to={"/myPayments"} className='menuOptionsMobile__item'>
                 - Mis pagos
-            </Link>
-          </>
-          :
-          <>
-            <Link to={"/shifts"} className='menuOptionsMobile__item'>
-                - Turnos
-            </Link>
-            <Link to={"/cuts"} className='menuOptionsMobile__item'>
-                - Cortes
-            </Link>
-            <Link to={"/about"} className='menuOptionsMobile__item'>
-                - Sobre Nosotros
-            </Link>
-            <Link to={"/partners"} className='menuOptionsMobile__item'>
-                - Socios
             </Link>
           </>
         }  

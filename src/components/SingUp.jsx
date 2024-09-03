@@ -19,6 +19,68 @@ const SingUp = () => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
     const user_datetime = currentDate;
+
+    function regexOnlyLetters(str) {
+        const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+        return regex.test(str);
+    }
+
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
+    const handleInputFirstName = (e) => {
+        const texto = e.target.value;
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setFirstName(textToSaved)
+        }
+    }
+
+    const handleInputLastName = (e) => {
+        const texto = e.target.value;
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setLastName(textToSaved)
+        }
+    }
+
+    const handleInputEmail = (e) => {
+        const texto = e.target.value;
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setEmail(textToSaved)
+    }
+
+    const handleInputPassword = (e) => {
+        const texto = e.target.value;
+        setPassword(cleanString(texto))
+    }
+
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
+    const validateEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -33,12 +95,67 @@ const SingUp = () => {
                     progress: undefined,
                     theme: "dark",
                 });
+            } else if (!validateEmail(email)) {
+                toast('El email no es válido!', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(first_name)) {
+                toast('El campo nombre contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(last_name)) {
+                toast('El campo apellido contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(email)) {
+                toast('El campo email contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(password)) {
+                toast('El campo contraseña contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
             } else {
                 setShowSpinner(true);
                 const response = await fetch(`${apiUrl}/api/sessions/singUp`, {
                     method: 'POST',
                     headers: {
-                    'Content-Type': 'application/json'
+                        'Content-Type': 'application/json; charset=utf-8'
                     },
                     body: JSON.stringify({ first_name, last_name, email, password, user_datetime })
                 })
@@ -88,19 +205,19 @@ const SingUp = () => {
                     <form className='singUpContainer__credentials__form'>
                         <div className='singUpContainer__credentials__form__label-input'>
                             <h2 className='singUpContainer__credentials__form__label-input__label'>Nombre</h2>
-                            <input className='singUpContainer__credentials__form__label-input__input' placeholder='Nombre' onChange={(e) => {setFirstName(e.target.value)}}/>
+                            <input className='singUpContainer__credentials__form__label-input__input' placeholder='Nombre' value={first_name} onChange={handleInputFirstName}/>
                         </div>
                         <div className='singUpContainer__credentials__form__label-input'>
                             <h2 className='singUpContainer__credentials__form__label-input__label'>Apellido</h2>
-                            <input className='singUpContainer__credentials__form__label-input__input' placeholder='Apellido' onChange={(e) => {setLastName(e.target.value)}}/>
+                            <input className='singUpContainer__credentials__form__label-input__input' placeholder='Apellido' value={last_name} onChange={handleInputLastName}/>
                         </div>
                         <div className='singUpContainer__credentials__form__label-input'>
                             <h2 className='singUpContainer__credentials__form__label-input__label'>Email</h2>
-                            <input className='singUpContainer__credentials__form__label-input__input' type='email' placeholder='Email' onChange={(e) => {setEmail(e.target.value)}}/>
+                            <input className='singUpContainer__credentials__form__label-input__input' type='email' placeholder='Email' value={email} onChange={handleInputEmail}/>
                         </div>
                         <div className='singUpContainer__credentials__form__label-input'>
                             <h2 className='singUpContainer__credentials__form__label-input__label'>Contraseña</h2>
-                            <input className='singUpContainer__credentials__form__label-input__input' type='password' placeholder='Contraseña' onChange={(e) => {setPassword(e.target.value)}}/>
+                            <input className='singUpContainer__credentials__form__label-input__input' type='password' placeholder='Contraseña' value={password} onChange={handleInputPassword}/>
                         </div>
                         <div className='singUpContainer__credentials__form__btn'>
                             <button className='singUpContainer__credentials__form__btn__prop' onClick={handleSubmit}>Registrarse</button>

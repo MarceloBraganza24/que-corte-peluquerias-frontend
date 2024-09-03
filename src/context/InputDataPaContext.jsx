@@ -9,26 +9,47 @@ export const ParentPaComponent = ({children}) => {
   const [inputPhonePa, setInputPhonePa] = useState('');
   const [inputEmailPa, setInputEmailPa] = useState('');
 
+  function regexOnlyLetters(str) {
+    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+    return regex.test(str); 
+  } 
+
+  function cleanString(input) {
+    let trimmed = input.trim();
+    let cleaned = trimmed.replace(/\s+/g, ' ');
+    return cleaned;
+  }
+
   const handleInputFirstNamePa = (e) => {
-    const texto = e.target.value.replace(/[^A-Za-zñÑ\s]/gi, '');
-    setInputFirstNamePa(texto);
+    const texto = e.target.value;
+    if(regexOnlyLetters(texto)) {
+      const textCleaned = cleanString(texto);
+      const textToSaved = cleanText(textCleaned);
+      setInputFirstNamePa(textToSaved)
+    }
   };
 
   const handleInputLastNamePa = (e) => {
-    const texto = e.target.value.replace(/[^A-Za-zñÑ\s]/gi, '');
-    setInputLastNamePa(texto);
+    const texto = e.target.value;
+    if(regexOnlyLetters(texto)) {
+      const textCleaned = cleanString(texto);
+      const textToSaved = cleanText(textCleaned);
+      setInputLastNamePa(textToSaved)
+    }
   };
 
   const handleInputPhonePa = (e) => {
     const inputValue = e.target.value;
     if (/^\d*$/.test(inputValue)) {
-      setInputPhonePa(inputValue);
+      setInputPhonePa(cleanString(inputValue));
     }
   };
 
   const handleInputEmailPa = (e) => {
     const inputValue = e.target.value;
-    setInputEmailPa(inputValue);
+    const textCleaned = cleanString(inputValue);
+    const textToSaved = cleanText(textCleaned);
+    setInputEmailPa(textToSaved)
   };
 
   return (

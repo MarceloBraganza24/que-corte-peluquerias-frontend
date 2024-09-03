@@ -25,6 +25,14 @@ const UsersList = () => {
     const [isMonted, setIsMonted] = useState(false);
     const apiUrl = import.meta.env.VITE_API_URL;
     const [isOpenCreateUserModalLocalMobile, setIsOpenCreateUserModalLocalMobile] = useState(false);
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+    const user_datetime = currentDate;
 
     const handleInputFilteredUsers = (e) => {
         const texto = e.target.value;
@@ -35,12 +43,27 @@ const UsersList = () => {
 
         const interval = setInterval(() => {
             menuOptionsModal&&handleMenuOptionsModal(false);
-            async function fetchData() {
+            async function fetchUsersData() {
                 const response = await fetch(`${apiUrl}/api/users`)
                 const usersAll = await response.json();
-                setUsers(usersAll.data)
+                if(!response.ok) {
+                    toast('No se pudieron obtener los usuarios, contacte al administrador', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                } else {
+                    setUsers(usersAll.data)
+                }
             }
-            fetchData();
+            if(users.length != 0) {
+                fetchUsersData();
+            }
             const getCookie = (name) => {
                 const cookieName = name + "=";
                 const decodedCookie = decodeURIComponent(document.cookie);
@@ -86,12 +109,25 @@ const UsersList = () => {
 
     useEffect(() => {
         menuOptionsModal&&handleMenuOptionsModal(false);
-        async function fetchData() {
+        async function fetchUsersData() {
             const response = await fetch(`${apiUrl}/api/users`)
             const usersAll = await response.json();
-            setUsers(usersAll.data)
+            if(!response.ok) {
+                toast('No se pudieron obtener los usuarios, contacte al administrador', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else {
+                setUsers(usersAll.data)
+            }
         }
-        fetchData();
+        fetchUsersData();
         const getCookie = (name) => {
             const cookieName = name + "=";
             const decodedCookie = decodeURIComponent(document.cookie);
@@ -146,6 +182,8 @@ const UsersList = () => {
     }
     const objetosFiltrados = filtrarPorApellido(inputFilteredUsers);
     const usersSinRoot = objetosFiltrados.filter(item => item.email != 'marcelo_braganza@hotmail.com') 
+
+    //const usersSinRoot = users.filter(item => item.email != 'marcelo_braganza@hotmail.com') 
     usersSinRoot.sort((a, b) => {
         return new Date(b.user_datetime) - new Date(a.user_datetime);
     });
@@ -156,6 +194,11 @@ const UsersList = () => {
         return regex.test(email);
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+    
     const handleBtnCreateUser = async() => {
         if(!inputFirstNameUL || !inputLastNameUL || !inputEmailUL || !inputPasswordUL) {
             toast('Debes completar todos los campos!', {
@@ -179,6 +222,50 @@ const UsersList = () => {
                 progress: undefined,
                 theme: "dark",
             });
+        } else if (!isValidUTF8(inputFirstNameUL)) {
+            toast('El campo nombre contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputLastNameUL)) {
+            toast('El campo apellido contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputEmailUL)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputPasswordUL)) {
+            toast('El campo contraseña contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         } else {
             document.getElementById('btnCreateUser').style.display = 'none';
             setShowSpinner(true);
@@ -187,12 +274,13 @@ const UsersList = () => {
                 last_name: inputLastNameUL,
                 email: inputEmailUL,
                 role: inputRoleUL?inputRoleUL:optionsRoleUL[0],
-                password: inputPasswordUL
+                password: inputPasswordUL,
+                user_datetime: user_datetime
             }
             const response = await fetch(`${apiUrl}/api/sessions/singUp`, {
                 method: 'POST',
                 headers: {
-                'Content-Type': 'application/json'
+                    'Content-Type': 'application/json; charset=utf-8'
                 },
                 body: JSON.stringify(userToCreate)
             })
