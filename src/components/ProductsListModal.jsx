@@ -16,9 +16,27 @@ const ProductsListModal = ({id,title,description,price,stock,category,handleUpda
     const [inputChanges, setInputChanges] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
 
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
     const handleInputTitleIProd = (e) => {
         const inputValue = e.target.value;
-        setInputTitleIProd(inputValue);
+        const textCleaned = cleanString(inputValue);
+        const textToSaved = cleanText(textCleaned);
+        setInputTitleIProd(textToSaved)
         inputValue===title?setInputChanges(false):setInputChanges(true);
         inputValue===''&&setInputChanges(false);
         if(inputDescriptionIProd!==description && inputDescriptionIProd!=='')setInputChanges(true);
@@ -29,7 +47,9 @@ const ProductsListModal = ({id,title,description,price,stock,category,handleUpda
 
     const handleInputDescriptionIProd = (e) => {
         const inputValue = e.target.value;
-        setinputDescriptionIProd(inputValue);
+        const textCleaned = cleanString(inputValue);
+        const textToSaved = cleanText(textCleaned);
+        setinputDescriptionIProd(textToSaved)
         inputValue===description?setInputChanges(false):setInputChanges(true);
         inputValue===''&&setInputChanges(false);
         if(inputTitleIProd!==title && inputTitleIProd!=='')setInputChanges(true);
@@ -66,7 +86,9 @@ const ProductsListModal = ({id,title,description,price,stock,category,handleUpda
 
     const handleInputCategoryIProd = (e) => {
         const inputValue = e.target.value;
-        setInputCategoryIProd(inputValue);
+        const textCleaned = cleanString(inputValue);
+        const textToSaved = cleanText(textCleaned);
+        setInputCategoryIProd(textToSaved)
         inputValue===category?setInputChanges(false):setInputChanges(true);
         inputValue===''&&setInputChanges(false);
         if(inputTitleIProd!==title && inputTitleIProd!=='')setInputChanges(true);
@@ -79,28 +101,16 @@ const ProductsListModal = ({id,title,description,price,stock,category,handleUpda
         handleConfirmationDelProvidersModal(true)
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const handleBtnUpdProduct = async() => {
-        document.getElementById('btnUpdateProduct').style.display = 'none';
-        setShowSpinner(true);
-        const productToUpdate = {
-            title: inputTitleIProd?inputTitleIProd:title,
-            description: inputDescriptionIProd?inputDescriptionIProd:description,
-            price: inputPriceIProd?inputPriceIProd:price,
-            stock: inputStockIProd?inputStockIProd:stock,
-            category: inputCategoryIProd?inputCategoryIProd:category
-        }
-        const response = await fetch(`${apiUrl}/api/products/${id}`, {
-            method: 'PUT',         
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(productToUpdate)
-        })
-        const data = await response.json();
-        if(response.ok) {
-            toast('Has actualizado el producto correctamente!', {
+        if (!isValidUTF8(inputTitleIProd)) {
+            toast('El campo título contiene caracteres no válidos', {
                 position: "top-right",
-                autoClose: 1000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -108,16 +118,10 @@ const ProductsListModal = ({id,title,description,price,stock,category,handleUpda
                 progress: undefined,
                 theme: "dark",
             });
-            setTimeout(() => {
-                handleUpdateProductModal(false);
-                handleUpdateProductModalLocal(false);
-                setInputChanges(false);
-            }, 1500);
-        }
-        if(data.error === 'There is already a product with that title') {
-            toast('Ya existe un producto con ese título!', {
+        } else if (!isValidUTF8(inputDescriptionIProd)) {
+            toast('El campo descripción contiene caracteres no válidos', {
                 position: "top-right",
-                autoClose: 1500,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -125,23 +129,101 @@ const ProductsListModal = ({id,title,description,price,stock,category,handleUpda
                 progress: undefined,
                 theme: "dark",
             });
-            document.getElementById('btnUpdateProduct').style.display = 'block';
-            setShowSpinner(false);
-        }  else if(data.error === 'There is already a product with that data') {
+        } else if (!isValidUTF8(inputPriceIProd)) {
+            toast('El campo precio contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputStockIProd)) {
+            toast('El campo stock contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputCategoryIProd)) {
+            toast('El campo categoría contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if ((inputTitleIProd == title || inputTitleIProd == '') && (inputDescriptionIProd == description || inputDescriptionIProd == '') && (inputPriceIProd == price || inputPriceIProd == '') && (inputStockIProd == stock || inputStockIProd == '') && (inputCategoryIProd == category || inputCategoryIProd == '')) {
             toast('No tienes cambios para actualizar!', {
                 position: "top-right",
-                autoClose: 1500,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
-                progress: undefined,        
+                progress: undefined,
                 theme: "dark",
             });
-            document.getElementById('btnUpdateProduct').style.display = 'block';
-            setShowSpinner(false);
-            setInputChanges(false);
+        } else {
+            document.getElementById('btnUpdateProduct').style.display = 'none';
+            setShowSpinner(true);
+            const productToUpdate = {
+                title: inputTitleIProd?inputTitleIProd:title,
+                description: inputDescriptionIProd?inputDescriptionIProd:description,
+                price: inputPriceIProd?inputPriceIProd:price,
+                stock: inputStockIProd?inputStockIProd:stock,
+                category: inputCategoryIProd?inputCategoryIProd:category
+            }
+            const response = await fetch(`${apiUrl}/api/products/${id}`, {
+                method: 'PUT',         
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(productToUpdate)
+            })
+            const data = await response.json();
+            if(response.ok) {
+                toast('Has actualizado el producto correctamente!', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                setTimeout(() => {
+                    handleUpdateProductModal(false);
+                    handleUpdateProductModalLocal(false);
+                    setInputChanges(false);
+                }, 1500);
+            }
+            if(data.error === 'There is already a product with that title') {
+                toast('Ya existe un producto con ese título!', {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                document.getElementById('btnUpdateProduct').style.display = 'block';
+                setShowSpinner(false);
+            }
         }
+
     };
 
     const ConfirmationDeleteModal = () => {

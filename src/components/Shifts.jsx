@@ -43,7 +43,10 @@ const Shifts = () => {
     const [isWantPay, setIsWantPay] = useState(false);
     const [isMonted, setIsMonted] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
+    const [isBtnShiftRegisterBlocked, setIsBtnShiftRegisterBlocked] = useState(false);
     const optionsService = ['Elija su servicio'];
+
+    //console.log(shifts)
 
     function capitalizeFirstLetter(str) {
         if (str.length === 0) return str;
@@ -99,7 +102,7 @@ const Shifts = () => {
     const optionsScheduleSh = [];
 
     function filtrarPorFecha(shiftsFiltered, fecha) {
-        return shiftsFiltered.filter(objeto => objeto.date === fecha);
+        return shiftsFiltered.filter(objeto => objeto.date == fecha);
     }
     const shiftsByDate = filtrarPorFecha(shifts, formatedDate);
     //const schedules = shiftsByDate.map(shift => shift.schedule)
@@ -243,9 +246,25 @@ const Shifts = () => {
             async function fetchShiftsData() {
                 const response = await fetch(`${apiUrl}/api/shifts`)
                 const shiftsAll = await response.json();
-                setShifts(shiftsAll.data)
+                if(!response.ok) {
+                    toast('No se pudieron obtener los turnos disponibles, contacte a la peluquería', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                    setIsBtnShiftRegisterBlocked(true);
+                } else {
+                    setShifts(shiftsAll.data)
+                }
             }
-            fetchShiftsData();
+            if(shifts.length != 0) {
+                fetchShiftsData();
+            }
             async function fetchHolidaysData() {
                 const response = await fetch(`${apiUrl}/api/holidays`)
                 const holidaysAll = await response.json();
@@ -302,6 +321,8 @@ const Shifts = () => {
         };
     }, [isMonted]);
     
+    //const shiftsMock = []
+        
     useEffect(() => {
         
         menuOptionsModal&&handleMenuOptionsModal(false);
@@ -311,12 +332,30 @@ const Shifts = () => {
             setPrices(pricesAll.data)
         }
         fetchPricesData();
+
         async function fetchShiftsData() {
             const response = await fetch(`${apiUrl}/api/shifts`)
             const shiftsAll = await response.json();
-            setShifts(shiftsAll.data)
+            if(!response.ok) {
+                toast('No se pudieron obtener los turnos disponibles, contacte a la peluquería', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+                setIsBtnShiftRegisterBlocked(true);
+            } else {
+                setShifts(shiftsAll.data)
+            }
         }
         fetchShiftsData();
+
+        //setShifts(shiftsMock)
+        
         async function fetchHolidaysData() {
             const response = await fetch(`${apiUrl}/api/holidays`)
             const holidaysAll = await response.json();
@@ -378,6 +417,19 @@ const Shifts = () => {
     const validateEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
+    };
+
+    const nonRegisterYet = () => {
+        toast('Aún no puedes registrar un turno, contáctate con la peluquería para solicitar el permiso', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
     };
 
     const fechaActual = new Date();
@@ -458,7 +510,7 @@ const Shifts = () => {
                 const preference = await fetch(`${apiUrl}/api/payments/create-preference-shift`, {
                     method: 'POST',
                     headers: {
-                    'Content-Type': 'application/json'
+                        'Content-Type': 'application/json; charset=utf-8'
                     },
                     body: JSON.stringify(order)
                 })
@@ -526,6 +578,11 @@ const Shifts = () => {
     const styleDisabledBtns = {
         backgroundColor: 'grey',
         border: 'none'
+    }
+
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
     }
 
     const handleBtnSaveShift = () => {
@@ -618,6 +675,39 @@ const Shifts = () => {
                 progress: undefined,
                 theme: "dark",
             });
+        } else if (!isValidUTF8(inputFirstNameSh)) {
+            toast('El campo nombre contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputLastNameSh)) {
+            toast('El campo apellido contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputEmailSh)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         } else {
             setSaveConfirmationShiftModal(true);
         }
@@ -691,7 +781,7 @@ const Shifts = () => {
                 const response = await fetch(`${apiUrl}/api/shifts/register`, {
                     method: 'POST',         
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json; charset=utf-8'
                     },
                     body: JSON.stringify(shiftToCreate)
                 })
@@ -756,6 +846,18 @@ const Shifts = () => {
 
     }
 
+    const inputDisabledStyle = {
+        backgroundColor: 'white'
+    };
+
+    /* const handleNonRegister = () => {
+        if(isBtnShiftRegisterBlocked) {
+            setIsBtnShiftRegisterBlocked(false)        
+        } else {
+            setIsBtnShiftRegisterBlocked(true)        
+        }
+    }; */
+
   return (
     <>
         <NavBar/>
@@ -767,99 +869,79 @@ const Shifts = () => {
                     <div className='shiftsContainerIsLoggedIn__form'>
                         <h2 className='shiftsContainerIsLoggedIn__form__phrase'>Registra tu turno</h2>
                         <div className='shiftsContainerIsLoggedIn__form__credentials'>
-                            <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
-                                    <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Nombre:</h2>
-                                </div>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <input className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' placeholder='Nombre' value={inputFirstNameSh} onChange={handleInputFirstNameSh}/>
-                                </div>
-                            </div>
-                            <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
-                                    <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Apellido:</h2>
-                                </div>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <input className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' placeholder='Apellido' value={inputLastNameSh} onChange={handleInputLastNameSh}/>
-                                </div>
-                            </div>
-                            <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
-                                    <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Peluquero:</h2>
-                                </div>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <select className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={selectOptionHairdresserSh} onChange={(e) => {handleSelectOptionHairdresserSh(e.target.value)}}>
-                                        {optionsHairdresser.map((option, index) => (
-                                        <option key={index} value={option}>{option}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
-                                    <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Servicio:</h2>
-                                </div>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <select className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={inputOptionServiceSh} onChange={(e) => {handleInputOptionServiceSh(e.target.value)}}>
-                                        {optionsService.map((option, index) => (
-                                        <option key={index} value={option}>{option}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
-                                    <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Email:</h2>
-                                </div>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <input className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' type='email' placeholder='Email' value={inputEmailSh} onChange={handleInputEmailSh}/>
-                                </div>
-                            </div>
-                            <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
-                                    <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Fecha:</h2>
-                                </div>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <DatePicker
-                                        className="react-datepicker-wrapper"
-                                        selected={inputDateSh}
-                                        onChange={handleDateChange}
-                                        dateFormat="dd/MM/yyyy"
-                                        placeholderText="Seleccione una fecha"
-                                        locale="es"
-                                    />
-                                </div>
-                            </div>
-                            <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
-                                    <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Horario:</h2>
-                                </div>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <select className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={selectScheduleSh} onChange={(e) => {handleSelectScheduleSh(e.target.value)}}>
-                                        {optionsScheduleSh.map((option, index) => (
-                                        <option key={index} value={option}>{option}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
-                                    <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Precio:</h2>
-                                </div>
-                                <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__price'>{inputPriceSh?`$ ${inputPriceSh}`:inputPriceSh}</div>
-                                </div>
-                            </div>
                             {
-                                isWantPay ?
+                                !isBtnShiftRegisterBlocked ?
                                 <>
                                     <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
                                         <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
-                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Turno:</h2>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Nombre:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <input className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' placeholder='Nombre' value={inputFirstNameSh} onChange={handleInputFirstNameSh}/>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Apellido:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <input className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' placeholder='Apellido' value={inputLastNameSh} onChange={handleInputLastNameSh}/>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Peluquero:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <select className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={selectOptionHairdresserSh} onChange={(e) => {handleSelectOptionHairdresserSh(e.target.value)}}>
+                                                {optionsHairdresser.map((option, index) => (
+                                                <option key={index} value={option}>{option}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Servicio:</h2>
                                         </div>
                                         <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
                                             <select className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={inputOptionServiceSh} onChange={(e) => {handleInputOptionServiceSh(e.target.value)}}>
                                                 {optionsService.map((option, index) => (
+                                                <option key={index} value={option}>{option}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Email:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <input className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' type='email' placeholder='Email' value={inputEmailSh} onChange={handleInputEmailSh}/>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Fecha:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <DatePicker
+                                                className="react-datepicker-wrapper"
+                                                selected={inputDateSh}
+                                                onChange={handleDateChange}
+                                                dateFormat="dd/MM/yyyy"
+                                                placeholderText="Seleccione una fecha"
+                                                locale="es"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Horario:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <select className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={selectScheduleSh} onChange={(e) => {handleSelectScheduleSh(e.target.value)}}>
+                                                {optionsScheduleSh.map((option, index) => (
                                                 <option key={index} value={option}>{option}</option>
                                                 ))}
                                             </select>
@@ -873,6 +955,100 @@ const Shifts = () => {
                                             <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__price'>{inputPriceSh?`$ ${inputPriceSh}`:inputPriceSh}</div>
                                         </div>
                                     </div>
+                                </>
+                                :
+                                <>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Nombre:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <input disabled style={inputDisabledStyle} className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' placeholder='Nombre' value={inputFirstNameSh} onChange={handleInputFirstNameSh}/>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Apellido:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <input disabled style={inputDisabledStyle} className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' placeholder='Apellido' value={inputLastNameSh} onChange={handleInputLastNameSh}/>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Peluquero:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <select disabled style={inputDisabledStyle} className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={selectOptionHairdresserSh} onChange={(e) => {handleSelectOptionHairdresserSh(e.target.value)}}>
+                                                {optionsHairdresser.map((option, index) => (
+                                                <option key={index} value={option}>{option}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Servicio:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <select disabled style={inputDisabledStyle} className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={inputOptionServiceSh} onChange={(e) => {handleInputOptionServiceSh(e.target.value)}}>
+                                                {optionsService.map((option, index) => (
+                                                <option key={index} value={option}>{option}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Email:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <input disabled style={inputDisabledStyle} className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' type='email' placeholder='Email' value={inputEmailSh} onChange={handleInputEmailSh}/>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Fecha:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <DatePicker
+                                                disabled
+                                                className="react-datepicker-wrapper-disabled"
+                                                selected={inputDateSh}
+                                                onChange={handleDateChange}
+                                                dateFormat="dd/MM/yyyy"
+                                                placeholderText="Seleccione una fecha"
+                                                locale="es"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Horario:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <select disabled style={inputDisabledStyle} className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={selectScheduleSh} onChange={(e) => {handleSelectScheduleSh(e.target.value)}}>
+                                                {optionsScheduleSh.map((option, index) => (
+                                                <option key={index} value={option}>{option}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__label'>
+                                            <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Precio:</h2>
+                                        </div>
+                                        <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
+                                            <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__price'>{inputPriceSh?`$ ${inputPriceSh}`:inputPriceSh}</div>
+                                        </div>
+                                    </div>
+                                </>
+                            }
+                            
+                            {
+                                
+                                isWantPay ?
+                                <>
                                     <div className='shiftsContainerIsLoggedIn__form__credentials__btn'>
                                         <button id='pagarTurnoBtn' className='shiftsContainerIsLoggedIn__form__credentials__btn__prop' onClick={handleAdmPremBuy}>Pagar</button>
                                     </div>
@@ -881,9 +1057,18 @@ const Shifts = () => {
                                 :
                                 <>
                                     <div className='shiftsContainerIsLoggedIn__form__credentials__btn'>
-                                        <button className='shiftsContainerIsLoggedIn__form__credentials__btn__prop' onClick={handleBtnSaveShift}>Registrar turno</button>
+                                        {
+                                            !isBtnShiftRegisterBlocked ?
+                                            <button className='shiftsContainerIsLoggedIn__form__credentials__btn__prop' onClick={handleBtnSaveShift}>Registrar turno</button>
+                                            :
+                                            <button disabled className='shiftsContainerIsLoggedIn__form__credentials__btn__prop'>Registrar turno</button>
+                                        }
                                         {/* <button className='shiftsContainerIsLoggedIn__form__credentials__btn__propWantBuy' onClick={handleWantPayShift}>Deseas pagar el turno? Has click aquí</button> */}
                                     </div>
+                                    {/* <div className='shiftsContainerIsLoggedIn__form__credentials__btn'>
+                                        <button onClick={()=>setIsBtnShiftRegisterBlocked(true)} className='shiftsContainerIsLoggedIn__form__credentials__btn__prop'>Quitar permiso de sacar turnos</button>
+                                        <button onClick={handleNonRegister} className='shiftsContainerIsLoggedIn__form__credentials__btn__prop'>Quitar permiso de sacar turnos</button>
+                                    </div> */}
                                 </>
                             }
                             {saveConfirmationShiftModal && <SaveConfirmationShiftModal setSaveConfirmationShiftModal={setSaveConfirmationShiftModal}/>}
@@ -904,7 +1089,7 @@ const Shifts = () => {
                                     <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Nombre:</h2>
                                 </div>
                                 <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <input className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' placeholder='Nombre' value={inputFirstNameSh} onChange={handleInputFirstNameSh}/>
+                                    <input disabled style={inputDisabledStyle} className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' placeholder='Nombre' value={inputFirstNameSh} onChange={handleInputFirstNameSh}/>
                                 </div>
                             </div>
                             <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
@@ -912,7 +1097,7 @@ const Shifts = () => {
                                     <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Apellido:</h2>
                                 </div>
                                 <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <input className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' placeholder='Apellido' value={inputLastNameSh} onChange={handleInputLastNameSh}/>
+                                    <input disabled style={inputDisabledStyle} className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' placeholder='Apellido' value={inputLastNameSh} onChange={handleInputLastNameSh}/>
                                 </div>
                             </div>
                             <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
@@ -920,7 +1105,7 @@ const Shifts = () => {
                                     <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Servicio:</h2>
                                 </div>
                                 <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <select className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={inputOptionServiceSh} onChange={(e) => {handleInputOptionServiceSh(e.target.value)}}>
+                                    <select disabled className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={inputOptionServiceSh} onChange={(e) => {handleInputOptionServiceSh(e.target.value)}}>
                                         {optionsService.map((option, index) => (
                                         <option key={index} value={option}>{option}</option>
                                         ))}
@@ -932,7 +1117,7 @@ const Shifts = () => {
                                     <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Email:</h2>
                                 </div>
                                 <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <input className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' type='email' placeholder='Email' value={inputEmailSh} onChange={handleInputEmailSh}/>
+                                    <input disabled style={inputDisabledStyle} className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' type='email' placeholder='Email' value={inputEmailSh} onChange={handleInputEmailSh}/>
                                 </div>
                             </div>
                             <div className='shiftsContainerIsLoggedIn__form__credentials__label-input'>
@@ -941,11 +1126,12 @@ const Shifts = () => {
                                 </div>
                                 <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
                                     <DatePicker
-                                        className="react-datepicker-wrapper"
+                                        className="react-datepicker-wrapper-disabled"
                                         selected={inputDateSh}
                                         onChange={handleDateChange}
                                         dateFormat="dd/MM/yyyy"
                                         placeholderText="Seleccione una fecha"
+                                        disabled
                                     />
                                 </div>
                             </div>
@@ -954,7 +1140,7 @@ const Shifts = () => {
                                     <h2 className='shiftsContainerIsLoggedIn__form__credentials__label-input__label__prop'>Horario:</h2>
                                 </div>
                                 <div className='shiftsContainerIsLoggedIn__form__credentials__label-input__input'>
-                                    <select className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={selectScheduleSh} onChange={(e) => {handleSelectScheduleSh(e.target.value)}}>
+                                    <select disabled className='shiftsContainerIsLoggedIn__form__credentials__label-input__input__prop' value={selectScheduleSh} onChange={(e) => {handleSelectScheduleSh(e.target.value)}}>
                                         {optionsScheduleSh.map((option, index) => (
                                         <option key={index} value={option}>{option}</option>
                                         ))}
@@ -971,7 +1157,7 @@ const Shifts = () => {
                             </div>
                             <div className='shiftsContainerIsLoggedIn__form__credentials__btn'>
                                 {/* <button id='pagarTurnoBtn' className='shiftsContainerIsLoggedIn__form__credentials__btn__prop' onClick={handleBuy}>Pagar</button> */}
-                                <button id='pagarTurnoBtn' className='shiftsContainerIsLoggedIn__form__credentials__btn__propNonRegister'>Aún no puedes registrar un turno</button>
+                                <button id='pagarTurnoBtn' onClick={nonRegisterYet} className='shiftsContainerIsLoggedIn__form__credentials__btn__propNonRegister'>Aún no puedes registrar un turno</button>
                             </div>
                         </div>
                         {preferenceId && <Wallet initialization={{ preferenceId: preferenceId }} />} 

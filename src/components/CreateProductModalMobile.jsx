@@ -22,14 +22,34 @@ const CreateProductModalMobile = ({setIsOpenCreateProductModalLocalMobile}) => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const currentDate = `${year}-${month}-${day} ${hours}:${minutes}`; */
 
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
     const handleInputTitleProdL = (e) => {
         const texto = e.target.value;
-        setInputTitleProdL(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputTitleProdL(textToSaved)
     };
 
     const handleInputDescriptionProdL = (e) => {
         const inputValue = e.target.value;
-        setInputDescriptionProdL(inputValue);
+        const textCleaned = cleanString(inputValue);
+        const textToSaved = cleanText(textCleaned);
+        setInputDescriptionProdL(textToSaved)
     };
 
     const handleInputPriceProdL = (e) => {
@@ -48,7 +68,9 @@ const CreateProductModalMobile = ({setIsOpenCreateProductModalLocalMobile}) => {
 
     const handleInputCategoryProdL = (e) => {
         const texto = e.target.value;
-        setInputCategoryProdL(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputCategoryProdL(textToSaved)
     };
 
     const closeM = () => {
@@ -64,11 +86,71 @@ const CreateProductModalMobile = ({setIsOpenCreateProductModalLocalMobile}) => {
         setInputCategoryProdL('')
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const handleBtnCreatePartner = async() => {
         if(!inputTitleProdL || !inputDescriptionProdL || !inputPriceProdL || !inputStockProdL || !inputCategoryProdL) {
             toast('Debes completar todos los campos!', {
                 position: "top-right",
                 autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputTitleProdL)) {
+            toast('El campo título contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputDescriptionProdL)) {
+            toast('El campo descripción contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputPriceProdL)) {
+            toast('El campo precio contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputStockProdL)) {
+            toast('El campo stock contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputCategoryProdL)) {
+            toast('El campo categoría contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

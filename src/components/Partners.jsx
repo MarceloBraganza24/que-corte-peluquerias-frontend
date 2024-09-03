@@ -484,6 +484,11 @@ const Partners = () => {
         return regex.test(email);
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const pagarRegistroSocio = async () => {
         try {
             const order = {
@@ -492,11 +497,10 @@ const Partners = () => {
                 quantity: 1,
                 first_name: inputFirstNamePa,
                 last_name: inputLastNamePa,
-                dni: inputDniPa,
                 phone: inputPhonePa,
                 email: inputEmailPa,
             }
-            if(!inputFirstNamePa || !inputLastNamePa || !inputDniPa || !inputPhonePa || !inputEmailPa) {
+            if(!inputFirstNamePa || !inputLastNamePa || !inputPhonePa || !inputEmailPa) {
                 toast('Debes completar todos los campos', {
                     position: "top-right",
                     autoClose: 2000,
@@ -518,24 +522,56 @@ const Partners = () => {
                     progress: undefined,
                     theme: "dark",
                 });
+            } else if (!isValidUTF8(inputFirstNamePa)) {
+                toast('El campo nombre contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(inputLastNamePa)) {
+                toast('El campo apellido contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(inputPhonePa)) {
+                toast('El campo teléfono contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(inputEmailPa)) {
+                toast('El campo email contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
             } else {
                 const response = await fetch(`${apiUrl}/api/partners`)
                 const res = await response.json();
                 const partners = res.data;
-                const partnerByDniExists = partners.find(item => item.dni === Number(inputDniPa))
                 const partnerByEmailExists = partners.find(item => item.email === inputEmailPa)
-                if(partnerByDniExists) {
-                    toast('Ya existe un socio con ese DNI!', {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    });
-                } else if(partnerByEmailExists) {
+                if(partnerByEmailExists) {
                     toast('Ya existe un socio con ese email!', {
                         position: "top-right",
                         autoClose: 3000,
@@ -597,20 +633,8 @@ const Partners = () => {
                 last_name: user.last_name,
                 email: user.email,
             }
-            const preference = await fetch(`${apiUrl}/api/payments/create-preference-membership-fees`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(order)
-            })
-            const responsePref = await preference.json();
-            if(responsePref.id) {
-                document.getElementById('btnPayMembershipFee').style.display = 'none';
-                const id = responsePref.id;
-                return id;
-            } else {
-                toast('Ha ocurrido un error al intentar pagar el turno, intente nuevamente', {
+            if (!isValidUTF8(inputFirstNamePa)) {
+                toast('El campo nombre contiene caracteres no válidos', {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -619,8 +643,67 @@ const Partners = () => {
                     draggable: true,
                     progress: undefined,
                     theme: "dark",
-                });                    
+                });
+            } else if (!isValidUTF8(inputLastNamePa)) {
+                toast('El campo apellido contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(inputPhonePa)) {
+                toast('El campo teléfono contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(inputEmailPa)) {
+                toast('El campo email contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else {
+                const preference = await fetch(`${apiUrl}/api/payments/create-preference-membership-fees`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(order)
+                })
+                const responsePref = await preference.json();
+                if(responsePref.id) {
+                    document.getElementById('btnPayMembershipFee').style.display = 'none';
+                    const id = responsePref.id;
+                    return id;
+                } else {
+                    toast('Ha ocurrido un error al intentar pagar el turno, intente nuevamente', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });                    
+                }
             }
+
         } catch (error) {
             console.log(error)
         }
@@ -645,20 +728,8 @@ const Partners = () => {
                 last_name: user.last_name,
                 email: user.email,
             }
-            const preference = await fetch(`${apiUrl}/api/payments/create-preference-membership-fees-mobile`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(order)
-            })
-            const responsePref = await preference.json();
-            if(responsePref.id) {
-                document.getElementById('btnPayMembershipFeeMobile').style.display = 'none';
-                const id = responsePref.id;
-                return id;
-            } else {
-                toast('Ha ocurrido un error al intentar pagar el turno, intente nuevamente', {
+            if (!isValidUTF8(inputFirstNamePa)) {
+                toast('El campo nombre contiene caracteres no válidos', {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -667,8 +738,67 @@ const Partners = () => {
                     draggable: true,
                     progress: undefined,
                     theme: "dark",
-                });                    
+                });
+            } else if (!isValidUTF8(inputLastNamePa)) {
+                toast('El campo apellido contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(inputPhonePa)) {
+                toast('El campo teléfono contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else if (!isValidUTF8(inputEmailPa)) {
+                toast('El campo email contiene caracteres no válidos', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else {
+                const preference = await fetch(`${apiUrl}/api/payments/create-preference-membership-fees-mobile`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(order)
+                })
+                const responsePref = await preference.json();
+                if(responsePref.id) {
+                    document.getElementById('btnPayMembershipFeeMobile').style.display = 'none';
+                    const id = responsePref.id;
+                    return id;
+                } else {
+                    toast('Ha ocurrido un error al intentar pagar el turno, intente nuevamente', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });                    
+                }
             }
+
         } catch (error) {
             console.log(error)
         }
@@ -721,7 +851,7 @@ const Partners = () => {
       <>
             <NavBar/>
             {
-                isLoggedIn && (user.role=='premium') && !user.isMembershipFeePaid?
+                isLoggedIn && (user.role=='premium' || user.role=='user') && !user.isMembershipFeePaid?
 
                 <>
                     <HMenu/>
@@ -737,7 +867,7 @@ const Partners = () => {
                                     <h2 className='partnersContainerIsLoggedIn__credentials__label-input__label__prop'>Nombre:</h2>
                                 </div>
                                 <div className='partnersContainerIsLoggedIn__credentials__label-input__input'>
-                                    <input className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' placeholder='Nombre' value={inputFirstNamePa} onChange={handleInputFirstNamePa}/>
+                                    <input disabled className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' placeholder='Nombre' value={inputFirstNamePa} onChange={handleInputFirstNamePa}/>
                                 </div>
                             </div>
                             <div className='partnersContainerIsLoggedIn__credentials__label-input'>
@@ -745,7 +875,7 @@ const Partners = () => {
                                     <h2 className='partnersContainerIsLoggedIn__credentials__label-input__label__prop'>Apellido:</h2>
                                 </div>
                                 <div className='partnersContainerIsLoggedIn__credentials__label-input__input'>
-                                    <input className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' placeholder='Apellido' value={inputLastNamePa} onChange={handleInputLastNamePa}/>
+                                    <input disabled className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' placeholder='Apellido' value={inputLastNamePa} onChange={handleInputLastNamePa}/>
                                 </div>
                             </div>
                             <div className='partnersContainerIsLoggedIn__credentials__label-input'>
@@ -753,7 +883,7 @@ const Partners = () => {
                                     <h2 className='partnersContainerIsLoggedIn__credentials__label-input__label__prop'>Teléfono:</h2>
                                 </div>
                                 <div className='partnersContainerIsLoggedIn__credentials__label-input__input'>
-                                    <input className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' type='text' maxLength={13} placeholder='Teléfono' value={inputPhonePa} onChange={handleInputPhonePa}/>
+                                    <input disabled className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' type='text' maxLength={13} placeholder='Teléfono' value={inputPhonePa} onChange={handleInputPhonePa}/>
                                 </div>
                             </div>
                             <div className='partnersContainerIsLoggedIn__credentials__label-input'>
@@ -761,7 +891,7 @@ const Partners = () => {
                                     <h2 className='partnersContainerIsLoggedIn__credentials__label-input__label__prop'>Email:</h2>
                                 </div>
                                 <div className='partnersContainerIsLoggedIn__credentials__label-input__input'>
-                                    <input className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' type='email' placeholder='Email' value={inputEmailPa} onChange={handleInputEmailPa}/>
+                                    <input disabled className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' type='email' placeholder='Email' value={inputEmailPa} onChange={handleInputEmailPa}/>
                                 </div>
                             </div>
                             <div className='partnersContainerIsLoggedIn__credentials__label-input'>
@@ -795,7 +925,7 @@ const Partners = () => {
                                     <h2 className='partnersContainerIsLoggedIn__credentials__label-input__label__prop'>Nombre:</h2>
                                 </div>
                                 <div className='partnersContainerIsLoggedIn__credentials__label-input__input'>
-                                    <input className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' placeholder='Nombre' value={inputFirstNamePa} onChange={handleInputFirstNamePa}/>
+                                    <input disabled className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' placeholder='Nombre' value={inputFirstNamePa} onChange={handleInputFirstNamePa}/>
                                 </div>
                             </div>
                             <div className='partnersContainerIsLoggedIn__credentials__label-input'>
@@ -803,7 +933,7 @@ const Partners = () => {
                                     <h2 className='partnersContainerIsLoggedIn__credentials__label-input__label__prop'>Apellido:</h2>
                                 </div>
                                 <div className='partnersContainerIsLoggedIn__credentials__label-input__input'>
-                                    <input className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' placeholder='Apellido' value={inputLastNamePa} onChange={handleInputLastNamePa}/>
+                                    <input disabled className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' placeholder='Apellido' value={inputLastNamePa} onChange={handleInputLastNamePa}/>
                                 </div>
                             </div>
                             <div className='partnersContainerIsLoggedIn__credentials__label-input'>
@@ -811,7 +941,7 @@ const Partners = () => {
                                     <h2 className='partnersContainerIsLoggedIn__credentials__label-input__label__prop'>Teléfono:</h2>
                                 </div>
                                 <div className='partnersContainerIsLoggedIn__credentials__label-input__input'>
-                                    <input className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' type='text' maxLength={13} placeholder='Teléfono' value={inputPhonePa} onChange={handleInputPhonePa}/>
+                                    <input disabled className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' type='text' maxLength={13} placeholder='Teléfono' value={inputPhonePa} onChange={handleInputPhonePa}/>
                                 </div>
                             </div>
                             <div className='partnersContainerIsLoggedIn__credentials__label-input'>
@@ -819,7 +949,7 @@ const Partners = () => {
                                     <h2 className='partnersContainerIsLoggedIn__credentials__label-input__label__prop'>Email:</h2>
                                 </div>
                                 <div className='partnersContainerIsLoggedIn__credentials__label-input__input'>
-                                    <input className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' type='email' placeholder='Email' value={inputEmailPa} onChange={handleInputEmailPa}/>
+                                    <input disabled className='partnersContainerIsLoggedIn__credentials__label-input__input__prop' type='email' placeholder='Email' value={inputEmailPa} onChange={handleInputEmailPa}/>
                                 </div>
                             </div>
                             <div className='partnersContainerIsLoggedIn__credentials__label-input'>

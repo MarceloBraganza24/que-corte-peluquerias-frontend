@@ -10,14 +10,34 @@ export const ParentProdComponent = ({children}) => {
   const [inputStockProd, setInputStockProd] = useState('');
   const [inputCategoryProd, setInputCategoryProd] = useState('');
 
+  const cleanText = (text) => {
+    const replacements = {
+      'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+      'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+      'ñ': 'n', 'Ñ': 'N'
+    };
+  
+    return text.split('').map(char => replacements[char] || char).join('');
+  };
+
+  function cleanString(input) {
+      let trimmed = input.trim();
+      let cleaned = trimmed.replace(/\s+/g, ' ');
+      return cleaned;
+  }
+
   const handleInputTitleProd = (e) => {
     const inputValue = e.target.value;
-    setInputTitleProd(inputValue);
+    const textCleaned = cleanString(inputValue);
+    const textToSaved = cleanText(textCleaned);
+    setInputTitleProd(textToSaved)
   };
 
   const handleInputDescriptionProd = (e) => {
     const inputValue = e.target.value;
-    setInputDescriptionProd(inputValue);
+    const textCleaned = cleanString(inputValue);
+    const textToSaved = cleanText(textCleaned);
+    setInputDescriptionProd(textToSaved)
   };
 
   const handleInputPriceProd = (e) => {
@@ -36,7 +56,9 @@ export const ParentProdComponent = ({children}) => {
 
   const handleInputCategoryProd = (e) => {
     const inputValue = e.target.value;
-    setInputCategoryProd(inputValue);
+    const textCleaned = cleanString(inputValue);
+    const textToSaved = cleanText(textCleaned);
+    setInputCategoryProd(textToSaved)
   };
 
   const handleEmptyInputTitleProd = () => {

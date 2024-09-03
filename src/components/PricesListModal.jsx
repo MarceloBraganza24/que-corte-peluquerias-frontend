@@ -17,11 +17,27 @@ const PricesListModal = ({id,priceOf,valuePriceOf,category,setIsPricesListModalO
     const apiUrl = import.meta.env.VITE_API_URL;
     const optionsCategory = ['Elija categoría','Socios','No socios','Varios'];
 
-    const regex = /^[a-zA-Z0-9ñÑ\s]+$/;
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
     const handleInputPriceOf = (e) => {
         const texto = e.target.value;
-        regex.test(texto);
-        setInputPriceOf(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputPriceOf(textToSaved)
         texto===priceOf?setInputChanges(false):setInputChanges(true);
         texto===''&&setInputChanges(false);
         if(inputValuePriceOf!=valuePriceOf && inputValuePriceOf!='')setInputChanges(true);
@@ -52,6 +68,11 @@ const PricesListModal = ({id,priceOf,valuePriceOf,category,setIsPricesListModalO
         handleConfirmationDelPriceModalMobile(true);
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const handleBtnUpdPrice = async(evt) => {
         evt.preventDefault();
         if(inputCreateCategory=='Elija categoría') {
@@ -65,10 +86,43 @@ const PricesListModal = ({id,priceOf,valuePriceOf,category,setIsPricesListModalO
                 progress: undefined,
                 theme: "dark",
             });
+        } else if ((inputPriceOf == priceOf || inputPriceOf == '') && (inputValuePriceOf == valuePriceOf || inputValuePriceOf == '') && (inputCreateCategory == category || inputCreateCategory == '')) {
+            toast('No tienes cambios para actualizar!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputPriceOf)) {
+            toast('El campo "precio de" contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputValuePriceOf)) {
+            toast('El campo "valor" contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         } else {
             document.getElementById('btnUpdateItemPriceOf').style.display = 'none';
             setShowSpinner(true);
-            const ItemPriceToUpdate = {
+            const itemPriceToUpdate = {
                 price_of: inputPriceOf?inputPriceOf:priceOf,
                 value_price_of: inputValuePriceOf?inputValuePriceOf:valuePriceOf,
                 category: inputCreateCategory?inputCreateCategory:category
@@ -78,7 +132,7 @@ const PricesListModal = ({id,priceOf,valuePriceOf,category,setIsPricesListModalO
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(ItemPriceToUpdate)
+                body: JSON.stringify(itemPriceToUpdate)
             })
             const data = await response.json();
             if(response.ok) {
@@ -100,19 +154,6 @@ const PricesListModal = ({id,priceOf,valuePriceOf,category,setIsPricesListModalO
             }
             if(data.error === 'There is already a price with that price of') {
                 toast('Ya existe un item con esa descripción!', {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                document.getElementById('btnUpdateItemPriceOf').style.display = 'block';
-                setShowSpinner(false);
-            } else if(data.error === 'There is already a price with that data') {
-                toast('No tienes cambios para actualizar!', {
                     position: "top-right",
                     autoClose: 1500,
                     hideProgressBar: false,

@@ -201,6 +201,15 @@
     z-index: 0;
 }
 
+.react-datepicker-wrapper-disabled {
+    background-color: white;
+    width: 100%;
+    height: auto;
+    padding: 1vh 0vh;
+    border-radius: 1vh;
+    z-index: 0;
+}
+
 @media (max-width: 480px) {
 .shiftsContainer {
     background-color: black;

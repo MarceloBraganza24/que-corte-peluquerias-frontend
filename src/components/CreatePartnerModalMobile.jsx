@@ -10,7 +10,6 @@ const CreatePartnerModalMobile = ({setIsOpenCreatePartnerModalLocalMobile,result
     const apiUrl = import.meta.env.VITE_API_URL;
     const [inputFirstNamePaL, setInputFirstNamePaL] = useState('');
     const [inputLastNamePaL, setInputLastNamePaL] = useState('');
-    //const [inputPartnerNumberPaL, setInputPartnerNumberPaL] = useState('');
     const [selectOptionMembershipNumber, setSelectOptionMembershipNumberShL] = useState('');
     const [inputEmailPaL, setInputEmailPaL] = useState('');
     const [showSpinner, setShowSpinner] = useState(false);
@@ -21,23 +20,42 @@ const CreatePartnerModalMobile = ({setIsOpenCreatePartnerModalLocalMobile,result
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
-    const regex = /^[A-Za-zñÑ\s]*$/;
     const optionsMembershipNumber = [];
     resultCompleteMembershipNumber.forEach((element) => {
         optionsMembershipNumber.push(element)
     })
 
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
+
     const handleInputFirstNamePaL = (e) => {
         const texto = e.target.value;
-        if(regex.test(texto)) {
-        setInputFirstNamePaL(texto);
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputFirstNamePaL(textToSaved)
         }
     };
 
     const handleInputLastNamePaL = (e) => {
         const texto = e.target.value;
-        if(regex.test(texto)) {
-          setInputLastNamePaL(texto);
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputLastNamePaL(textToSaved)
         }
     };
 
@@ -47,7 +65,9 @@ const CreatePartnerModalMobile = ({setIsOpenCreatePartnerModalLocalMobile,result
 
     const handleInputEmailPaL = (e) => {
         const texto = e.target.value;
-        setInputEmailPaL(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputEmailPaL(textToSaved)
     };
 
     const closeM = () => {
@@ -67,11 +87,54 @@ const CreatePartnerModalMobile = ({setIsOpenCreatePartnerModalLocalMobile,result
         setSelectOptionMembershipNumberShL(optionsMembershipNumber[0])
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
+    function regexOnlyLetters(str) {
+        const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+        return regex.test(str);
+    }
+
     const handleBtnCreatePartner = async() => {
         if(!inputFirstNamePaL || !inputLastNamePaL || !inputEmailPaL) {
             toast('Debes completar todos los campos!', {
                 position: "top-right",
                 autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputFirstNamePaL)) {
+            toast('El campo nombre contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputLastNamePaL)) {
+            toast('El campo apellido contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputEmailPaL)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

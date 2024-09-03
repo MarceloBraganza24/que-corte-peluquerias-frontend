@@ -21,20 +21,44 @@ const CreateUserModalMobile = ({setIsOpenCreateUserModalLocalMobile}) => {
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
-    const regex = /^[A-Za-zñÑ\s]*$/;
     const optionsRoleIU = ["user","admin", "premium"];
+
+    function regexOnlyLetters(str) {
+        const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+        return regex.test(str);
+    }
+
+    const cleanText = (text) => {
+        const replacements = {
+          'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+          'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+          'ñ': 'n', 'Ñ': 'N'
+        };
+      
+        return text.split('').map(char => replacements[char] || char).join('');
+    };
+
+    function cleanString(input) {
+        let trimmed = input.trim();
+        let cleaned = trimmed.replace(/\s+/g, ' ');
+        return cleaned;
+    }
 
     const handleInputFirstNameUL = (e) => {
         const texto = e.target.value;
-        if(regex.test(texto)) {
-        setInputFirstNameUL(texto);
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputFirstNameUL(textToSaved)
         }
     };
 
     const handleInputLastNameUL = (e) => {
         const texto = e.target.value;
-        if(regex.test(texto)) {
-          setInputLastNameUL(texto);
+        if(regexOnlyLetters(texto)) {
+            const textCleaned = cleanString(texto);
+            const textToSaved = cleanText(textCleaned);
+            setInputLastNameUL(textToSaved)
         }
     };
 
@@ -45,7 +69,9 @@ const CreateUserModalMobile = ({setIsOpenCreateUserModalLocalMobile}) => {
 
     const handleInputEmailUL = (e) => {
         const texto = e.target.value;
-        setInputEmailUL(texto);
+        const textCleaned = cleanString(texto);
+        const textToSaved = cleanText(textCleaned);
+        setInputEmailUL(textToSaved)
     };
 
     const handleInputPasswordUL = (e) => {
@@ -71,6 +97,11 @@ const CreateUserModalMobile = ({setIsOpenCreateUserModalLocalMobile}) => {
         setInputPasswordUL('');
     };
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     const handleBtnCreateUser = async() => {
         if(!inputFirstNameUL || !inputLastNameUL || !inputEmailUL || !inputPasswordUL) {
             toast('Debes completar todos los campos!', {
@@ -87,6 +118,50 @@ const CreateUserModalMobile = ({setIsOpenCreateUserModalLocalMobile}) => {
             toast('El email no es válido!', {
                 position: "top-right",
                 autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputFirstNameUL)) {
+            toast('El campo nombre contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputLastNameUL)) {
+            toast('El campo apellido contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputEmailUL)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputPasswordUL)) {
+            toast('El campo contraseña contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

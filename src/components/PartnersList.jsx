@@ -55,6 +55,11 @@ const PartnersList = () => {
     
     partners.sort((a, b) => a.partner_number - b.partner_number);
 
+    function isValidUTF8(str) {
+        const utf8Regex = /^[\u0000-\uD7FF\uE000-\uFFFF]*$/;
+        return utf8Regex.test(str);
+    }
+
     useEffect(() => {
         const interval = setInterval(() => {
             menuOptionsModal&&handleMenuOptionsModal(false);
@@ -202,6 +207,39 @@ const PartnersList = () => {
             toast('El email no es válido!', {
                 position: "top-right",
                 autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputFirstNamePaL)) {
+            toast('El campo nombre contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputLastNamePaL)) {
+            toast('El campo apellido contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if (!isValidUTF8(inputEmailPaL)) {
+            toast('El campo email contiene caracteres no válidos', {
+                position: "top-right",
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

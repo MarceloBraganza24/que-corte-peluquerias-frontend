@@ -17,13 +17,35 @@ export const ParentShLComponent = ({children}) => {
 
 
   //,handleOnBlurInputAddScheduleMShLM,handleOnBlurInputAddScheduleHShLM
+  function regexOnlyLetters(str) {
+    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+    return regex.test(str);
+  }
 
-  const regex = /^[A-Za-zñÑ\s]*$/;
+  const cleanText = (text) => {
+    const replacements = {
+      'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+      'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+      'ñ': 'n', 'Ñ': 'N'
+    };
+  
+    return text.split('').map(char => replacements[char] || char).join('');
+  };
+
+  function cleanString(input) {
+    let trimmed = input.trim();
+    let cleaned = trimmed.replace(/\s+/g, ' ');
+    return cleaned;
+  }
+
+  //const regex = /^[A-Za-zñÑ\s]*$/;
 
   const handleInputFirstNameShL = (e) => {
     const texto = e.target.value;
-    if(regex.test(texto)) {
-      setInputFirstNameShL(texto);
+    if(regexOnlyLetters(texto)) {
+      const textCleaned = cleanString(texto);
+      const textToSaved = cleanText(textCleaned);
+      setInputFirstNameShL(textToSaved)
     }
   };
 
@@ -49,14 +71,18 @@ export const ParentShLComponent = ({children}) => {
 
   const handleInputLastNameShL = (e) => {
     const texto = e.target.value;
-    if(regex.test(texto)) {
-      setInputLastNameShL(texto);
+    if(regexOnlyLetters(texto)) {
+      const textCleaned = cleanString(texto);
+      const textToSaved = cleanText(textCleaned);
+      setInputLastNameShL(textToSaved)
     }
   };
 
   const handleInputEmailShL = (e) => {
     const texto = e.target.value;
-    setInputEmailShL(texto);
+    const textCleaned = cleanString(texto);
+    const textToSaved = cleanText(textCleaned);
+    setInputEmailShL(textToSaved)
   };
 
   const handleInputDateShL = (e) => {

@@ -119,7 +119,7 @@ const MenuOptions = ({isLoggedIn,role}) => {
             </Link>
           </>
           :
-          isLoggedIn && role==='premium'?
+          isLoggedIn && (role==='premium' || role==='user')?
           <>
             <Link to={"/myShifts"} className='menuOptions__item'>
             - Mis turnos
