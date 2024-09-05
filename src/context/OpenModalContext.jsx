@@ -36,6 +36,8 @@ export const OpenModalContextComponent = ({children}) => {
 
     const [updatePricesModal, setUpdatePricesModal] = useState(false);
     const [payMembershipFeeModal, setPayMembershipFeeModal] = useState(false);
+
+    const [myDataModal, setMyDataModal] = useState(false);
     
     const [deleteTicketModal, setDeleteTicketModal] = useState(false);
 
@@ -52,6 +54,9 @@ export const OpenModalContextComponent = ({children}) => {
     };
     const handleCancelDayModal = (boolean) => {
         setCancelDayModal(boolean);
+    };
+    const handleUpdateMyDataModal = (boolean) => {
+        setMyDataModal(boolean);
     };
     const handleUpdateShiftModal = (boolean) => {
         setUpdateShiftModal(boolean);
@@ -119,7 +124,7 @@ export const OpenModalContextComponent = ({children}) => {
     
     return (
 
-        <OpenModalContext.Provider value={{ cancelDaysListModal,cancelShiftModal,cancelDayModal,handleCancelDaysListModal,handleCancelDayModal,recoverShiftModal,updateUserModalMobile,createUserModalMobile,updateProductModalMobile,createProductModalMobile,createProviderModalMobile,createPartnerModalMobile,createShiftModalMobile,updateShiftModal,updateProviderModalMobile,updateShiftModalMobile,updatePartnerModalMobile, updateMyShiftModal,updateMyShiftModalMobile, updatePartnerModal, updateProviderModal, updateProductsModal, updateUsersModal, updatePricesModal, payMembershipFeeModal, deleteTicketModal, menuOptionsModal, handleUpdateShiftModal,handleCreatePartnerModalMobile,handleCreateShiftModalMobile,handleUpdateShiftModalMobile,handleUpdateMyShiftModalMobile, handleUpdateMyShiftModal, handleUpdatePartnerModal, handleUpdateProviderModal, handleUpdateProductModal, handleUpdateUserModal, handleUpdatePriceModal, handlePayMembershipFeeModal, handleDeleteTicketModal, handleMenuOptionsModal,handleUpdatePartnerModalMobile,handleCreateProviderModalMobile,handleUpdateProviderModalMobile,handleCreateProductModalMobile,handleUpdateProductModalMobile,handleCreateUserModalMobile,handleUpdateUserModalMobile,handleRecoverShiftModal,handleCancelShiftModal }}>
+        <OpenModalContext.Provider value={{ myDataModal,cancelDaysListModal,cancelShiftModal,cancelDayModal,handleCancelDaysListModal,handleCancelDayModal,recoverShiftModal,updateUserModalMobile,createUserModalMobile,updateProductModalMobile,createProductModalMobile,createProviderModalMobile,createPartnerModalMobile,createShiftModalMobile,updateShiftModal,updateProviderModalMobile,updateShiftModalMobile,updatePartnerModalMobile, updateMyShiftModal,updateMyShiftModalMobile, updatePartnerModal, updateProviderModal, updateProductsModal, updateUsersModal, updatePricesModal, payMembershipFeeModal, deleteTicketModal, menuOptionsModal, handleUpdateShiftModal,handleCreatePartnerModalMobile,handleCreateShiftModalMobile,handleUpdateShiftModalMobile,handleUpdateMyShiftModalMobile, handleUpdateMyShiftModal, handleUpdatePartnerModal, handleUpdateProviderModal, handleUpdateProductModal, handleUpdateUserModal, handleUpdatePriceModal, handlePayMembershipFeeModal, handleDeleteTicketModal, handleMenuOptionsModal,handleUpdatePartnerModalMobile,handleCreateProviderModalMobile,handleUpdateProviderModalMobile,handleCreateProductModalMobile,handleUpdateProductModalMobile,handleCreateUserModalMobile,handleUpdateUserModalMobile,handleRecoverShiftModal,handleCancelShiftModal,handleUpdateMyDataModal }}>
             {children}
         </OpenModalContext.Provider>
 

@@ -4,7 +4,7 @@ import {OpenModalContext} from '../context/OpenModalContext';
 import {IsLoggedContext} from '../context/IsLoggedContext';
 
 const HMenu = () => {
-  const {updateShiftModal,cancelDayModal,cancelDaysListModal,recoverShiftModal,cancelShiftModal,updateMyShiftModal,updatePartnerModal,updateProviderModal,updateProductsModal,updateUsersModal,updatePricesModal,deleteTicketModal,menuOptionsModal,handleMenuOptionsModal,payMembershipFeeModal} = useContext(OpenModalContext);
+  const {myDataModal,updateShiftModal,cancelDayModal,cancelDaysListModal,recoverShiftModal,cancelShiftModal,updateMyShiftModal,updatePartnerModal,updateProviderModal,updateProductsModal,updateUsersModal,updatePricesModal,deleteTicketModal,menuOptionsModal,handleMenuOptionsModal,payMembershipFeeModal} = useContext(OpenModalContext);
   const {isLoggedIn, login, logout} = useContext(IsLoggedContext);
   const [user, setUser] = useState('');
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -62,7 +62,7 @@ const HMenu = () => {
   return (
     <>
       {
-        !updateShiftModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
+        !updateShiftModal&&!myDataModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
         <>
           <div onClick={openCloseW} className='hMenu'>
             <div className='hMenu__line'></div>
@@ -117,6 +117,9 @@ const MenuOptions = ({isLoggedIn,role}) => {
             <Link to={"/myPayments"} className='menuOptions__item'>
               - Mis pagos
             </Link>
+            <Link to={"/myData"} className='menuOptions__item'>
+              - Mis datos
+            </Link>
           </>
           :
           isLoggedIn && (role==='premium' || role==='user')?
@@ -127,11 +130,17 @@ const MenuOptions = ({isLoggedIn,role}) => {
             <Link to={"/myPayments"} className='menuOptions__item'>
               - Mis pagos
             </Link>
+            <Link to={"/myData"} className='menuOptions__item'>
+              - Mis datos
+            </Link>
           </>
           :
           <>
             <Link to={"/myPayments"} className='menuOptions__item'>
               - Mis pagos
+            </Link>
+            <Link to={"/myData"} className='menuOptions__item'>
+              - Mis datos
             </Link>
           </>
         }

@@ -7,7 +7,7 @@ import {BtnMPContext} from '../context/BtnMPContext';
 const LogOut = () => {
     const {logout} = useContext(IsLoggedContext);
     const {btnBuyVisible} = useContext(BtnMPContext);
-    const {updateShiftModal,cancelDayModal,cancelDaysListModal,recoverShiftModal,cancelShiftModal,updateMyShiftModal,updatePartnerModal,updateProviderModal,updateProductsModal,updateUsersModal,updatePricesModal,deleteTicketModal,payMembershipFeeModal} = useContext(OpenModalContext);
+    const {myDataModal,updateShiftModal,cancelDayModal,cancelDaysListModal,recoverShiftModal,cancelShiftModal,updateMyShiftModal,updatePartnerModal,updateProviderModal,updateProductsModal,updateUsersModal,updatePricesModal,deleteTicketModal,payMembershipFeeModal} = useContext(OpenModalContext);
     const apiUrl = import.meta.env.VITE_API_URL;
     
     const logOutBtn = async (event) => {
@@ -55,7 +55,7 @@ const LogOut = () => {
   return (
     <>
       {
-        !updateShiftModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!btnBuyVisible&&!payMembershipFeeModal?
+        !updateShiftModal&&!myDataModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!btnBuyVisible&&!payMembershipFeeModal?
         <a onClick={logOutBtn} href="" className='logOut'>Cerrar sesión</a>
         :
         <div className='logOut'>Cerrar sesión</div>
