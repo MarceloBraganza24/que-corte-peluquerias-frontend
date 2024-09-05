@@ -29,6 +29,7 @@ import { PricesParentComponent } from './context/PricesContext';
 import MyShifts from './components/MyShifts';
 import MyPayments from './components/MyPayments';
 import ResetPass from './components/ResetPass';
+import MyData from './components/MyData';
 
 function App() {
 
@@ -78,6 +79,7 @@ function App() {
             <Route exact path="/myPayments" element={<MyPayments/>}/>
             <Route exact path="/sendMail" element={<SendMailPass/>}/>
             <Route exact path="/resetPass" element={<ResetPass/>}/>
+            <Route exact path="/myData" element={<MyData/>}/>
 
           </Routes>
           

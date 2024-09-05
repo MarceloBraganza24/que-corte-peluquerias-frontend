@@ -8,7 +8,7 @@ import {BtnMPContext} from '../context/BtnMPContext';
 import { toast } from "react-toastify";
 
 const NavBar = () => {
-    const {updateShiftModal,cancelDaysListModal,cancelDayModal,recoverShiftModal,cancelShiftModal,updateMyShiftModalMobile,updateUserModalMobile,createUserModalMobile,updateProductModalMobile,createProductModalMobile,updateProviderModalMobile,createProviderModalMobile,updatePartnerModalMobile,createPartnerModalMobile,createShiftModalMobile,updateMyShiftModal,updateShiftModalMobile,updatePartnerModal,updateProviderModal,updateProductsModal,updateUsersModal,updatePricesModal,deleteTicketModal,payMembershipFeeModal} = useContext(OpenModalContext);
+    const {myDataModal,updateShiftModal,cancelDaysListModal,cancelDayModal,recoverShiftModal,cancelShiftModal,updateMyShiftModalMobile,updateUserModalMobile,createUserModalMobile,updateProductModalMobile,createProductModalMobile,updateProviderModalMobile,createProviderModalMobile,updatePartnerModalMobile,createPartnerModalMobile,createShiftModalMobile,updateMyShiftModal,updateShiftModalMobile,updatePartnerModal,updateProviderModal,updateProductsModal,updateUsersModal,updatePricesModal,deleteTicketModal,payMembershipFeeModal} = useContext(OpenModalContext);
     const {isLoggedIn, login, logout} = useContext(IsLoggedContext);
     const {handleBtnBuyVisible} = useContext(BtnMPContext);
     const [user, setUser] = useState('');
@@ -78,7 +78,7 @@ const NavBar = () => {
                 <HMenuMobile/>
             </div>
             {
-                !updateShiftModalMobile&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!createUserModalMobile&&!updateMyShiftModalMobile&&!updatePricesModal&&!updateProductModalMobile&&!updateUserModalMobile&&!deleteTicketModal&&!createProductModalMobile&&!updateProviderModalMobile&&!createProviderModalMobile&&!createPartnerModalMobile&&!updatePartnerModalMobile&&!createShiftModalMobile?
+                !updateShiftModalMobile&&!myDataModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!createUserModalMobile&&!updateMyShiftModalMobile&&!updatePricesModal&&!updateProductModalMobile&&!updateUserModalMobile&&!deleteTicketModal&&!createProductModalMobile&&!updateProviderModalMobile&&!createProviderModalMobile&&!createPartnerModalMobile&&!updatePartnerModalMobile&&!createShiftModalMobile?
                 <a href="/home">
                     <img src="https://storage.googleapis.com/que-corte-peluquerias-img/logo-que-corte.jpeg" className='logoQCPNavbarMobile' alt="LogoQCP"/>
                 </a>
@@ -133,7 +133,7 @@ const NavBar = () => {
                 </div>
                 <div className='navBarContainer__phrase-btns__btns'>
                     {
-                        !updateShiftModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
+                        !updateShiftModal&&!myDataModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
                         <Link to={"/home"} className='navBarContainer__phrase-btns__btns__prop'>
                             Inicio
                         </Link>
@@ -141,7 +141,7 @@ const NavBar = () => {
                         <div className='navBarContainer__phrase-btns__btns__prop'>Inicio</div>
                     }
                     {
-                        !updateShiftModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
+                        !updateShiftModal&&!myDataModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
                         <Link to={"/shifts"} className='navBarContainer__phrase-btns__btns__prop'>
                             Turnos
                         </Link>
@@ -149,7 +149,7 @@ const NavBar = () => {
                         <div className='navBarContainer__phrase-btns__btns__prop'>Turnos</div>
                     }
                     {
-                        !updateShiftModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
+                        !updateShiftModal&&!myDataModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
                         <Link to={"/cuts"} className='navBarContainer__phrase-btns__btns__prop'>
                             Cortes
                         </Link>
@@ -157,7 +157,7 @@ const NavBar = () => {
                         <div className='navBarContainer__phrase-btns__btns__prop'>Cortes</div>
                     }
                     {
-                        !updateShiftModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
+                        !updateShiftModal&&!myDataModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
                         <Link to={"/about"} className='navBarContainer__phrase-btns__btns__prop'>
                             Sobre nosotros
                         </Link>
@@ -165,7 +165,7 @@ const NavBar = () => {
                         <div className='navBarContainer__phrase-btns__btns__prop'>Sobre nosotros</div>
                     }
                     {
-                        !updateShiftModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&(user.role != 'admin')&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
+                        !updateShiftModal&&!myDataModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&(user.role != 'admin')&&!updateMyShiftModal&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
                         <Link to={"/partners"} className='navBarContainer__phrase-btns__btns__prop'>
                             Socios
                         </Link>

@@ -6,7 +6,7 @@ import {BtnMPContext} from '../context/BtnMPContext';
 
 const LogOutMobile = () => {
   const {isLoggedIn,logout} = useContext(IsLoggedContext);
-  const {updateShiftModal,cancelDayModal,cancelDaysListModal,recoverShiftModal,cancelShiftModal,updateMyShiftModalMobile,updateUserModalMobile,createUserModalMobile,updateProductModalMobile,createProductModalMobile,updateProviderModalMobile,createProviderModalMobile,updatePartnerModalMobile,createPartnerModalMobile,createShiftModalMobile,updateMyShiftModal,updateShiftModalMobile,updatePartnerModal,updateProviderModal,updateProductsModal,updateUsersModal,updatePricesModal,deleteTicketModal,payMembershipFeeModal} = useContext(OpenModalContext);
+  const {myDataModal,updateShiftModal,cancelDayModal,cancelDaysListModal,recoverShiftModal,cancelShiftModal,updateMyShiftModalMobile,updateUserModalMobile,createUserModalMobile,updateProductModalMobile,createProductModalMobile,updateProviderModalMobile,createProviderModalMobile,updatePartnerModalMobile,createPartnerModalMobile,createShiftModalMobile,updateMyShiftModal,updateShiftModalMobile,updatePartnerModal,updateProviderModal,updateProductsModal,updateUsersModal,updatePricesModal,deleteTicketModal,payMembershipFeeModal} = useContext(OpenModalContext);
   const {btnBuyVisible} = useContext(BtnMPContext);
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -52,7 +52,7 @@ const LogOutMobile = () => {
   return (
     <>
       {
-        !updateShiftModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModalMobile&&!updateUserModalMobile&&!createUserModalMobile&&!updateProductModalMobile&&!createProductModalMobile&&!updateProviderModalMobile&&!createProviderModalMobile&&!createPartnerModalMobile&&!updatePartnerModalMobile&&!createShiftModalMobile&&!updateMyShiftModal&&!updateShiftModalMobile&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&isLoggedIn&&!btnBuyVisible&&!payMembershipFeeModal?
+        !updateShiftModal&&!myDataModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModalMobile&&!updateUserModalMobile&&!createUserModalMobile&&!updateProductModalMobile&&!createProductModalMobile&&!updateProviderModalMobile&&!createProviderModalMobile&&!createPartnerModalMobile&&!updatePartnerModalMobile&&!createShiftModalMobile&&!updateMyShiftModal&&!updateShiftModalMobile&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&isLoggedIn&&!btnBuyVisible&&!payMembershipFeeModal?
         <a onClick={logOutBtn} href="" className='logOutMobile'>Cerrar sesión</a>
         :
         <img src="https://storage.googleapis.com/que-corte-peluquerias-img/logo-que-corte.jpeg" className='logoQCPNavbarMobile' alt="LogoQCP"/>

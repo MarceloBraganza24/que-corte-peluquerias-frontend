@@ -102,6 +102,83 @@
         }
     }
 }
+.myDataModalContainer {
+    background-color: black;
+    width: 30%;
+    height: auto;
+    @include disFC();
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 0.5vh solid white;
+    border-radius: 2vh;
+    z-index: 1;
+    &__btnCloseModal {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: end;
+        &__prop {
+            color: white;
+            font-size: 18px;
+            padding: 1vh 1vh 0vh 0vh;
+        }
+    }
+    &__data {
+        width: 100%;
+        height: auto;
+        @include disFC();
+        flex-direction: column;
+        gap: 2vh;
+        padding: 2vh 4vh 0vh 4vh;
+        &__label-input {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            gap: 1vh;
+            &__label {
+                width: 100%;
+                height: auto;
+                @include disFC();
+                color: white;
+                &__prop {
+                    text-align: center;
+                    font-size: 30px;
+                }
+            }
+            &__input {
+                width: 100%;
+                height: auto;
+                @include disFC();
+                &__prop {
+                    width: 100%;
+                    height: auto;
+                    padding: 0.5vh 0vh;
+                    border-radius: 1vh;
+                }
+            }
+        }
+    }
+    &__btn {
+        width: 100%;
+        height: auto;
+        @include disFC();
+        flex-direction: column;
+        gap: 0.5vh;
+        padding: 2vh 0vh;
+        &__prop {
+            background-color: #d2b569;
+            width: 50%;
+            height: auto;
+            padding: 0.3vh 0vh;
+            border-radius: 1vh;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+}
 .priceModalContainer {
     background-color: black;
     width: 60%;
@@ -1337,6 +1414,83 @@
         height: auto;
         text-align: center;
         color: white;
+    }
+}
+.myDataModalContainer {
+    background-color: black;
+    width: 90%;
+    height: auto;
+    @include disFC();
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 0.5vh solid white;
+    border-radius: 2vh;
+    z-index: 1;
+    &__btnCloseModal {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: end;
+        &__prop {
+            color: white;
+            font-size: 18px;
+            padding: 1vh 1vh 3vh 0vh;
+        }
+    }
+    &__data {
+        width: 100%;
+        height: auto;
+        @include disFC();
+        flex-direction: column;
+        gap: 2vh;
+        padding: 2vh 4vh 0vh 4vh;
+        &__label-input {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            gap: 1vh;
+            &__label {
+                width: 100%;
+                height: auto;
+                @include disFC();
+                color: white;
+                &__prop {
+                    text-align: center;
+                    font-size: 25px;
+                }
+            }
+            &__input {
+                width: 100%;
+                height: auto;
+                @include disFC();
+                &__prop {
+                    width: 100%;
+                    height: auto;
+                    padding: 0.5vh 0vh;
+                    border-radius: 1vh;
+                }
+            }
+        }
+    }
+    &__btn {
+        width: 100%;
+        height: auto;
+        @include disFC();
+        flex-direction: column;
+        gap: 0.5vh;
+        padding: 3vh 0vh;
+        &__prop {
+            background-color: #d2b569;
+            width: 50%;
+            height: auto;
+            padding: 0.3vh 0vh;
+            border-radius: 1vh;
+            font-size: 18px;
+            font-weight: bold;
+        }
     }
 }
 .priceModalContainer {

@@ -186,9 +186,9 @@ const About = () => {
                       Marcamos nuestro propio estilo en corte, color y peinado, con personalización en cada servicio, calidad de atención e imagen. Nuestro objetivo es que quienes visiten nuestro salón vivan una experiencia de 360 grados.</p>
                       {/* <p>{queCortePeluqueriasAboutTextBD?queCortePeluqueriasAboutTextBD.aboutText:'Aún no existe ningun texto sobre la empresa, escriba uno'}</p> */}
                     </div>
-                    <div className='aboutContainer__btn'>
+                    {/* <div className='aboutContainer__btn'>
                       <button disabled style={{color:'black'}} onClick={btnShowTextAreaAboutText} className='aboutContainer__btn__prop'>Editar</button>
-                    </div>
+                    </div> */}
                   </>
                 :
                   <>

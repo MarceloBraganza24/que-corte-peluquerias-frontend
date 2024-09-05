@@ -5,7 +5,7 @@ import {IsLoggedContext} from '../context/IsLoggedContext';
 import { toast } from 'react-toastify';
 
 const HMenuMobile = () => {
-  const {updateShiftModal,cancelDayModal,cancelDaysListModal,recoverShiftModal,cancelShiftModal,updateMyShiftModalMobile,updateUserModalMobile,createUserModalMobile,updateProductModalMobile,createProductModalMobile,updateProviderModalMobile,createProviderModalMobile,updatePartnerModalMobile,createPartnerModalMobile,createShiftModalMobile,updateShiftModalMobile,updateMyShiftModal,updatePartnerModal,updateProviderModal,updateProductsModal,updateUsersModal,updatePricesModal,deleteTicketModal,menuOptionsModal,handleMenuOptionsModal,payMembershipFeeModal} = useContext(OpenModalContext);
+  const {myDataModal,updateShiftModal,cancelDayModal,cancelDaysListModal,recoverShiftModal,cancelShiftModal,updateMyShiftModalMobile,updateUserModalMobile,createUserModalMobile,updateProductModalMobile,createProductModalMobile,updateProviderModalMobile,createProviderModalMobile,updatePartnerModalMobile,createPartnerModalMobile,createShiftModalMobile,updateShiftModalMobile,updateMyShiftModal,updatePartnerModal,updateProviderModal,updateProductsModal,updateUsersModal,updatePricesModal,deleteTicketModal,menuOptionsModal,handleMenuOptionsModal,payMembershipFeeModal} = useContext(OpenModalContext);
   const {isLoggedIn, login, logout} = useContext(IsLoggedContext);
   const [user, setUser] = useState('');
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -62,7 +62,7 @@ const HMenuMobile = () => {
   return (
     <>
       {
-        !updateShiftModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModalMobile&&!updateUserModalMobile&&!createUserModalMobile&&!updateProductModalMobile&&!updateProviderModalMobile&&!createProductModalMobile&&!createProviderModalMobile&&!createPartnerModalMobile&&!updatePartnerModalMobile&&!updateMyShiftModal&&!createShiftModalMobile&&!updateShiftModalMobile&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
+        !updateShiftModal&&!myDataModal&&!cancelDaysListModal&&!cancelDayModal&&!cancelShiftModal&&!recoverShiftModal&&!updateMyShiftModalMobile&&!updateUserModalMobile&&!createUserModalMobile&&!updateProductModalMobile&&!updateProviderModalMobile&&!createProductModalMobile&&!createProviderModalMobile&&!createPartnerModalMobile&&!updatePartnerModalMobile&&!updateMyShiftModal&&!createShiftModalMobile&&!updateShiftModalMobile&&!updatePartnerModal&&!updateProviderModal&&!updateProductsModal&&!updateUsersModal&&!updatePricesModal&&!deleteTicketModal&&!payMembershipFeeModal?
         <>
           <div onClick={openCloseW} className='hMenuMobile'>
             <div className='hMenuMobile__line'></div>
@@ -142,6 +142,9 @@ const MenuOptions = ({isLoggedIn,role}) => {
             <Link to={"/myPayments"} className='menuOptionsMobile__item'>
                 - Mis pagos
             </Link>
+            <Link to={"/myData"} className='menuOptions__item'>
+              - Mis datos
+            </Link>
           </>
           :
           isLoggedIn && (role==='premium' || role==='user')&&
@@ -163,6 +166,9 @@ const MenuOptions = ({isLoggedIn,role}) => {
             </Link>
             <Link to={"/myPayments"} className='menuOptionsMobile__item'>
                 - Mis pagos
+            </Link>
+            <Link to={"/myData"} className='menuOptions__item'>
+              - Mis datos
             </Link>
           </>
         }  
