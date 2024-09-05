@@ -186,7 +186,7 @@ const MyData = () => {
                             <button onClick={handleBtnOpenMyDataModal} className='myDataContainer__btn__prop'>Editar</button>
                         </div>
                     </div>
-                    {isMyDataModalOpen && <MyDataModal handleUpdateMyDataModal={handleUpdateMyDataModal} id={user._id} first_name={user.first_name} last_name={user.last_name} email={user.email} setIsMyDataModalOpen={setIsMyDataModalOpen}/>}
+                    {isMyDataModalOpen && <MyDataModal handleUpdateMyDataModal={handleUpdateMyDataModal} id={user._id} first_name={user.first_name} last_name={user.last_name} setIsMyDataModalOpen={setIsMyDataModalOpen}/>}
                     {/* <div className='myPaymentsContainerIsLoggedIn'>
                         <div className='myPaymentsContainerIsLoggedIn__title'>- Mis datos -</div>
                         {

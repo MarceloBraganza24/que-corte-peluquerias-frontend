@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 
-const MyDataModal = ({id,first_name,last_name,email,setIsMyDataModalOpen,handleUpdateMyDataModal}) => {
+const MyDataModal = ({id,first_name,last_name,setIsMyDataModalOpen,handleUpdateMyDataModal}) => {
     const [inputFirstNameMD, setInputFirstNameMD] = useState('');
     const [inputLastNameMD, setInputLastNameMD] = useState('');
-    const [inputEmailMD, setInputEmailMD] = useState('');
     const [showSpinner, setShowSpinner] = useState(false);
     const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -48,15 +47,8 @@ const MyDataModal = ({id,first_name,last_name,email,setIsMyDataModalOpen,handleU
         } 
     };
 
-    const handleInputEmailMD = (e) => {
-        const texto = e.target.value;
-        const textCleaned = cleanString(texto);
-        const textToSaved = cleanText(textCleaned);
-        setInputEmailMD(textToSaved)
-    };
-
     const handleBtnCloseModal = () => {
-        if((inputFirstNameMD == first_name || inputFirstNameMD == '') && (inputLastNameMD == last_name || inputLastNameMD == '') && (inputEmailMD == email || inputEmailMD == '')) {
+        if((inputFirstNameMD == first_name || inputFirstNameMD == '') && (inputLastNameMD == last_name || inputLastNameMD == '')) {
             handleUpdateMyDataModal(false)
             setIsMyDataModalOpen(false)
         } else {
@@ -76,7 +68,7 @@ const MyDataModal = ({id,first_name,last_name,email,setIsMyDataModalOpen,handleU
     const handleUpdateMyData = async(e) => {
         e.preventDefault();
         setShowSpinner(true);
-        if((inputFirstNameMD == first_name || inputFirstNameMD == '') && (inputLastNameMD == last_name || inputLastNameMD == '') && (inputEmailMD == email || inputEmailMD == '')) {
+        if((inputFirstNameMD == first_name || inputFirstNameMD == '') && (inputLastNameMD == last_name || inputLastNameMD == '')) {
             toast('No tienes cambios para actualizar!', {
                 position: "top-right",
                 autoClose: 1500,
@@ -91,8 +83,7 @@ const MyDataModal = ({id,first_name,last_name,email,setIsMyDataModalOpen,handleU
         } else {
             const myData = {
                 first_name: inputFirstNameMD?inputFirstNameMD:first_name,
-                last_name: inputLastNameMD?inputLastNameMD:last_name,
-                email: inputEmailMD?inputEmailMD:email,
+                last_name: inputLastNameMD?inputLastNameMD:last_name
             }
             const response = await fetch(`${apiUrl}/api/users/props/${id}`, {
                 method: 'PATCH',         
@@ -140,14 +131,6 @@ const MyDataModal = ({id,first_name,last_name,email,setIsMyDataModalOpen,handleU
                     </div>
                     <div className='myDataModalContainer__data__label-input__input'>
                         <input onChange={handleInputLastNameMD} value={!inputLastNameMD?last_name:inputLastNameMD} className='myDataModalContainer__data__label-input__input__prop' type="text" />
-                    </div>
-                </div>
-                <div className='myDataModalContainer__data__label-input'>
-                    <div className='myDataModalContainer__data__label-input__label'>
-                        <div className='myDataModalContainer__data__label-input__label__prop'>Email:</div>
-                    </div>
-                    <div className='myDataModalContainer__data__label-input__input'>
-                        <input onChange={handleInputEmailMD} value={!inputEmailMD?email:inputEmailMD} className='myDataModalContainer__data__label-input__input__prop' type="email" />
                     </div>
                 </div>
             </div>
