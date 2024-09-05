@@ -11,7 +11,16 @@ const LogOutMobile = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
 
     const logOutBtn = async (event) => {
-        event.preventDefault();
+      event.preventDefault();
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+      const last_connection = currentDate;
+      
         const getCookie = (name) => {
           const cookieName = name + "=";
           const decodedCookie = decodeURIComponent(document.cookie);
@@ -29,7 +38,11 @@ const LogOutMobile = () => {
         };
         const cookieValue = getCookie('TokenJWT');
         const response = await fetch(`${apiUrl}/api/sessions/logout?cookie=${cookieValue}`, {
-          method: 'POST'
+          method: 'POST',         
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ last_connection })
         })
         if(response.ok) {
           const expirationDate = new Date(0);

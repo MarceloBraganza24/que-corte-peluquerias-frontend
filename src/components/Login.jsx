@@ -11,6 +11,14 @@ const Login = () => {
     const {login} = useContext(IsLoggedContext);
     const [showSpinner, setShowSpinner] = useState(false);
     const apiUrl = import.meta.env.VITE_API_URL;
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+    const last_connection = currentDate;
 
     function cleanString(input) {
         let trimmed = input.trim();
@@ -92,7 +100,7 @@ const Login = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ email, password, last_connection })
                 })
                 const data = await response.json();
                 if (response.ok) {
