@@ -144,6 +144,70 @@ const Login = () => {
     return (
         <>
             <div className='loginContainer'>
+
+                <div className='loginContainer__credentialsContainer'>
+
+                    <div className='loginContainer__credentialsContainer__credentials'>
+                        <div className='loginContainer__credentialsContainer__credentials__phrase'>
+                            <h1 className='loginContainer__credentialsContainer__credentials__phrase__title'>Que Corte</h1>
+                        </div>
+                        <div className='loginContainer__credentialsContainer__credentials__phrase'>
+                            <h2 className='loginContainer__credentialsContainer__credentials__phrase__h2'>Inicio de sesión</h2>
+                        </div>
+                        <form className='loginContainer__credentialsContainer__credentials__form'>
+                            <div className='loginContainer__credentialsContainer__credentials__form__label-input'>
+                                <h2 className='loginContainer__credentialsContainer__credentials__form__label-input__label'>Email</h2>
+                                <input className='loginContainer__credentialsContainer__credentials__form__label-input__input' type='email' placeholder='Email' value={email} onChange={handleInputEmail}/>
+                            </div>
+                            <div className='loginContainer__credentialsContainer__credentials__form__label-input'>
+                                <h2 className='loginContainer__credentialsContainer__credentials__form__label-input__label'>Contraseña</h2>
+                                <input className='loginContainer__credentialsContainer__credentials__form__label-input__input' type='password' placeholder='Contraseña' value={password} onChange={handleInputPassword}/>
+                            </div>     
+                            <div className='loginContainer__credentialsContainer__credentials__form__btn'>
+                                <button className='loginContainer__credentialsContainer__credentials__form__btn__prop' onClick={handleSubmit}>Iniciar sesión</button>
+                            </div>       
+                        </form>
+                        <Link to={"/singUp"} className='loginContainer__credentialsContainer__credentials__form__btn'>
+                            <button className='loginContainer__credentialsContainer__credentials__form__btn__prop'>Registrarse</button>
+                        </Link>
+                        <Link to={"/sendMail"} className='loginContainer__credentialsContainer__credentials__phrase'>
+                            <div className='loginContainer__credentialsContainer__credentials__phrase__sendMail'>¿Olvidaste tu contraseña? Has click aquí</div>
+                        </Link>
+                        <div className='loginContainer__credentialsContainer__credentials__form__btn'>
+                            {showSpinner&&<Spinner/>}
+                        </div>  
+                    </div>
+
+                </div>
+
+                <div className='loginContainer__logo'>
+                    <div className='loginContainer__logo__img'>
+                        <img src="https://storage.googleapis.com/que-corte-peluquerias-img/logo-que-corte.jpeg" className='loginContainer__logo__img__prop' alt="logo-que-corte"/>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div className='loginContainer__background-img-up'>
+                    <img src="https://storage.googleapis.com/que-corte-peluquerias-img/logo-que-corte.jpeg" className='loginContainer__background-img-up__prop' alt="logo-que-corte"/>
+                </div>
+
                 <div className='loginContainer__credentials'>
                     <div className='loginContainer__credentials__phrase'>
                         <h1 className='loginContainer__credentials__phrase__title'>Que Corte</h1>

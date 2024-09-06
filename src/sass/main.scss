@@ -33,6 +33,7 @@ h2 {
 .no-scroll::-webkit-scrollbar {
 display: none; 
 }
+
 @mixin disFC {
     display: flex;
     justify-content: center;
