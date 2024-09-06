@@ -1,4 +1,9 @@
-.loginContainer {
+@mixin disFC {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.singUpContainer {
     background-color: black;
     width: 100%;
     height: 100%;
@@ -6,6 +11,9 @@
     grid-template-columns: 35% 65%;
     position: fixed;
     color: black;
+    &__background-img-up {
+        display: none;
+    }
     &__credentials {
         display: none;
     }
@@ -13,9 +21,6 @@
         width: 100%;
         height: auto;
         @include disFC();
-    }
-    &__background-img-up {
-        display: none;
     }
     &__credentialsContainer {
         width: 100%;
@@ -25,8 +30,8 @@
             background-color: #d2b569;
             width: 75%;
             height: auto;
-            padding: 6vh 4vh;
-            border-radius: 5vh;
+            padding: 3vh 4vh;
+            border-radius: 3vh;
             &__phrase {
                 width: 100%;
                 height: auto;
@@ -36,13 +41,13 @@
                     letter-spacing: 1vh;
                     font-weight: bold;
                 }
-                &__sendMail {
-                    font-size: 15px;
-                    padding-top: 2vh;
-                    text-decoration: none;
-                    color: black;
-                }
-                &__h2 {
+            }
+            &__h2 {
+                width: 100%;
+                height: auto;
+                @include disFC();
+                &__prop {
+                    text-align: center;
                     font-size: 25px;
                 }
             }
@@ -51,7 +56,7 @@
                 height: auto;
                 display: flex;
                 flex-direction: column;
-                gap: 2vh;
+                gap: 1vh;
                 padding-top: 2vh;
                 &__label-input {
                     display: flex;
@@ -74,7 +79,7 @@
                     &__prop {
                         background-color: black;
                         width: 70%;
-                        height: 35px;
+                        height: 40px;
                         font-size: 20px;
                         color: #d2b569;
                         border-radius: 5vh;
@@ -86,30 +91,27 @@
 }
 
 @media (max-width: 480px) {
-.loginContainer {
+.singUpContainer {
     background-color: black;
     width: 100%;
     height: 100%;
-    //@include disFC();
     display: flex;
-    align-items: end;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
     position: fixed;
     color: black;
-    padding-bottom: 5vh;
+    gap: 2vh;
+    padding: 2vh 2vh;
     &__background-img-up {
         //background-color: aqua;
-        width: 85%;
+        width: 100%;
         height: auto;
         @include disFC();
-        flex-direction: column;
-        position: fixed;
-        top: 10%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         z-index: 1;
+        //padding: 2vh;
         &__prop {
-            width: 100%;
+            width: 85%;
         }
     }
     &__logo {
@@ -120,10 +122,11 @@
     }
     &__credentials {
         background-color: #d2b569;
-        width: 80%;
+        width: 85%;
         height: auto;
         display: block;
-        padding: 6vh 2vh;
+        padding: 3vh 3vh;
+        //padding-top: 5vh;
         border-radius: 5vh;
         z-index: 2;
         &__phrase {
@@ -135,11 +138,14 @@
                 letter-spacing: 1vh;
                 font-weight: bold;
             }
-            &__sendMail {
-                font-size: 13px;
-                text-decoration: none;
-                color: black;
-                padding-top: 2vh;
+        }
+        &__h2 {
+            width: 100%;
+            height: auto;
+            //@include disFC();
+            &__prop {
+                text-align: center;
+                font-size: 20px;
             }
         }
         &__form {
@@ -147,13 +153,13 @@
             height: auto;
             display: flex;
             flex-direction: column;
-            gap: 2vh;
+            gap: 1vh;
             padding-top: 2vh;
             &__label-input {
                 display: flex;
                 flex-direction: column;
                 &__label {
-                    font-size: 25px;
+                    font-size: 20px;
                 }
                 &__input {
                     width: 100%;
@@ -169,8 +175,8 @@
                 padding-top: 2vh;
                 &__prop {
                     background-color: black;
-                    width: 80%;
-                    height: 35px;
+                    width: 85%;
+                    height: 40px;
                     font-size: 20px;
                     color: #d2b569;
                     border-radius: 5vh;

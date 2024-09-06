@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import Spinner from './Spinner';
 
@@ -117,7 +117,7 @@ const SendMailPass = () => {
                         <h1 className='sendMailContainer__credentials__phrase__title'>Que Corte</h1>
                     </div>
                     <div className='sendMailContainer__credentials__phrase'>
-                        <h2 className='sendMailContainer__credentials__phrase__h2'>Ingrese su email para recibir un link y cambiar la contraseña</h2>
+                        <h2 className='sendMailContainer__credentials__phrase__h2'>Ingrese su email para recibir un link y así poder cambiar la contraseña</h2>
                     </div>
                     <div className='sendMailContainer__credentials__form'>
                         <div className='sendMailContainer__credentials__form__label-input'>
@@ -126,7 +126,13 @@ const SendMailPass = () => {
                         </div> 
                         <div className='sendMailContainer__credentials__form__btn'>
                             <button className='sendMailContainer__credentials__form__btn__prop' onClick={handleBtnRecieveLink}>Recibir link</button>
-                        </div>       
+                        </div>
+                        <Link to={"/singUp"} className='sendMailContainer__credentials__form__btn'>
+                            <button className='sendMailContainer__credentials__form__btn__prop'>Registrarse</button>
+                        </Link>     
+                        <Link to={"/login"} className='sendMailContainer__credentials__form__btn'>
+                            <button className='sendMailContainer__credentials__form__btn__prop'>Iniciar sesión</button>
+                        </Link>  
                     </div>
                     <div className='sendMailContainer__credentials__form__btn'>
                         {showSpinner&&<Spinner/>}

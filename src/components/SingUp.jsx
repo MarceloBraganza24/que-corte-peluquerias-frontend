@@ -195,12 +195,61 @@ const SingUp = () => {
     return (
         <>
             <div className='singUpContainer'>
+
+                <div className='singUpContainer__credentialsContainer'>
+                    <div className='singUpContainer__credentialsContainer__credentials'>
+                        <div className='singUpContainer__credentialsContainer__credentials__phrase'>
+                            <h1 className='singUpContainer__credentialsContainer__credentials__phrase__title'>Que Corte</h1>
+                        </div>
+                        <div className='singUpContainer__credentialsContainer__credentials__h2'>
+                            <h2 className='singUpContainer__credentialsContainer__credentials__h2__prop'>Registro de usuario</h2>
+                        </div>
+                        <form className='singUpContainer__credentialsContainer__credentials__form'>
+                            <div className='singUpContainer__credentialsContainer__credentials__form__label-input'>
+                                <h2 className='singUpContainer__credentialsContainer__credentials__form__label-input__label'>Nombre</h2>
+                                <input className='singUpContainer__credentialsContainer__credentials__form__label-input__input' placeholder='Nombre' value={first_name} onChange={handleInputFirstName}/>
+                            </div>
+                            <div className='singUpContainer__credentialsContainer__credentials__form__label-input'>
+                                <h2 className='singUpContainer__credentialsContainer__credentials__form__label-input__label'>Apellido</h2>
+                                <input className='singUpContainer__credentialsContainer__credentials__form__label-input__input' placeholder='Apellido' value={last_name} onChange={handleInputLastName}/>
+                            </div>
+                            <div className='singUpContainer__credentialsContainer__credentials__form__label-input'>
+                                <h2 className='singUpContainer__credentialsContainer__credentials__form__label-input__label'>Email</h2>
+                                <input className='singUpContainer__credentialsContainer__credentials__form__label-input__input' type='email' placeholder='Email' value={email} onChange={handleInputEmail}/>
+                            </div>
+                            <div className='singUpContainer__credentialsContainer__credentials__form__label-input'>
+                                <h2 className='singUpContainer__credentialsContainer__credentials__form__label-input__label'>Contraseña</h2>
+                                <input className='singUpContainer__credentialsContainer__credentials__form__label-input__input' type='password' placeholder='Contraseña' value={password} onChange={handleInputPassword}/>
+                            </div>
+                            <div className='singUpContainer__credentialsContainer__credentials__form__btn'>
+                                <button className='singUpContainer__credentialsContainer__credentials__form__btn__prop' onClick={handleSubmit}>Registrarse</button>
+                            </div> 
+                        </form>
+                        <Link to={"/login"} className='singUpContainer__credentialsContainer__credentials__form__btn'>
+                            <button className='singUpContainer__credentialsContainer__credentials__form__btn__prop'>Iniciar sesión</button>
+                        </Link>
+                        <div className='singUpContainer__credentialsContainer__credentials__form__btn'>
+                            {showSpinner&&<Spinner/>}
+                        </div> 
+                    </div>
+                </div>
+
+                <div className='singUpContainer__logo'>
+                    <div className='singUpContainer__logo__img'>
+                        <img src="https://storage.googleapis.com/que-corte-peluquerias-img/logo-que-corte.jpeg" className='singUpContainer__logo__img__prop' alt="logo-que-corte"/>
+                    </div>
+                </div>
+
+                <div className='singUpContainer__background-img-up'>
+                    <img src="https://storage.googleapis.com/que-corte-peluquerias-img/logo-que-corte.jpeg" className='singUpContainer__background-img-up__prop' alt="logo-que-corte"/>
+                </div>
+
                 <div className='singUpContainer__credentials'>
                     <div className='singUpContainer__credentials__phrase'>
                         <h1 className='singUpContainer__credentials__phrase__title'>Que Corte</h1>
                     </div>
-                    <div className='singUpContainer__credentials__phrase'>
-                        <h2 className=''>Registro de usuario</h2>
+                    <div className='singUpContainer__credentials__h2'>
+                        <h2 className='singUpContainer__credentials__h2__prop'>Registro de usuario</h2>
                     </div>
                     <form className='singUpContainer__credentials__form'>
                         <div className='singUpContainer__credentials__form__label-input'>
@@ -230,6 +279,8 @@ const SingUp = () => {
                         {showSpinner&&<Spinner/>}
                     </div> 
                 </div>
+
+
             </div>
         </>
     )
