@@ -10,8 +10,9 @@
         width: 100%;
         height: auto;
         @include disFC();
-        font-size: 40px;
+        font-size: 50px;
         color: white;
+        animation: fadeIn 2s ease-in;
     }
     &__pricesList {
         width: 80%;
@@ -162,6 +163,7 @@
         @include disFC();
         font-size: 40px;
         color: white;
+        animation: fadeIn 2s ease-in;
     }
     &__pricesList {
         width: 95%;
@@ -243,6 +245,7 @@
                         text-align: center;
                         font-size: 18px;
                         border-radius: 1vh;
+                        color: black;
                     }
                 }
             }
@@ -253,6 +256,7 @@
                 &__prop {
                     background-color: #d2b569;
                     color: black;
+                    border-color: white;
                     width: 70%;
                     height: auto;
                     border-radius: 1vh;
@@ -302,6 +306,7 @@
                     border-radius: 1vh;
                     padding: 0.5vh 0vh;
                     color: black;
+                    border-color: white;
                 }
             }
             &__btnInputs {

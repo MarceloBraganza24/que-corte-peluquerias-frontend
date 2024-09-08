@@ -1490,6 +1490,8 @@
             border-radius: 1vh;
             font-size: 18px;
             font-weight: bold;
+            color: black;
+            border-color: black;
         }
     }
 }
@@ -1629,6 +1631,9 @@
             height: auto;
             @include disFC();
             &__prop {
+                background-color: #d2b569;
+                color: black;
+                border-color: white;
                 width: 85%;
                 border-radius: 2vh;
             }
@@ -1673,7 +1678,10 @@
             height: auto;
             @include disFC();
             &__prop {
-                width: 85%;
+                background-color: #d2b569;
+                color: black;
+                border-color: white;
+                width: 65%;
                 border-radius: 2vh;
             }
         }
@@ -1717,6 +1725,9 @@
             height: auto;
             @include disFC();
             &__prop {
+                background-color: #d2b569;
+                color: black;
+                border-color: white;
                 width: 85%;
                 border-radius: 2vh;
             }
@@ -1862,6 +1873,9 @@
             height: auto;
             @include disFC();
             &__prop {
+                background-color: #d2b569;
+                color: black;
+                border-color: white;
                 width: 85%;
                 border-radius: 2vh;
             }
@@ -1908,6 +1922,9 @@
             height: auto;
             @include disFC();
             &__prop {
+                background-color: #d2b569;
+                color: black;
+                border-color: white;
                 width: 85%;
                 border-radius: 2vh;
             }
@@ -1949,6 +1966,9 @@
             height: auto;
             @include disFC();
             &__prop {
+                background-color: #d2b569;
+                color: black;
+                border-color: white;
                 width: 85%;
                 border-radius: 2vh;
             }
@@ -1994,6 +2014,9 @@
             height: auto;
             @include disFC();
             &__prop {
+                background-color: #d2b569;
+                color: black;
+                border-color: white;
                 width: 85%;
                 border-radius: 2vh;
             }
@@ -2036,6 +2059,9 @@
             height: auto;
             @include disFC();
             &__prop {
+                background-color: #d2b569;
+                color: black;
+                border-color: white;
                 width: 85%;
                 border-radius: 2vh;
             }
@@ -2073,6 +2099,9 @@
         @include disFC();
         gap: 5vh;
         &__prop {
+            background-color: #d2b569;
+            color: black;
+            border-color: white;
             width: 30%;
             border-radius: 2vh;
         }
@@ -2112,6 +2141,9 @@
             height: auto;
             @include disFC();
             &__prop {
+                background-color: #d2b569;
+                color: black;
+                border-color: white;
                 width: 60%;
                 border-radius: 2vh;
             }
@@ -2152,6 +2184,9 @@
             height: auto;
             @include disFC();
             &__prop {
+                background-color: #d2b569;
+                color: black;
+                border-color: white;
                 width: 100%;
                 border-radius: 1vh;
             }
@@ -2187,6 +2222,9 @@
         @include disFC();
         gap: 5vh;
         &__prop {
+            background-color: #d2b569;
+            color: black;
+            border-color: white;
             width: 30%;
             border-radius: 2vh;
         }
@@ -2221,6 +2259,9 @@
         @include disFC();
         gap: 5vh;
         &__prop {
+            background-color: #d2b569;
+            color: black;
+            border-color: white;
             width: 30%;
             border-radius: 2vh;
         }
@@ -2255,6 +2296,9 @@
         @include disFC();
         gap: 5vh;
         &__prop {
+            background-color: #d2b569;
+            color: black;
+            border-color: white;
             width: 30%;
             border-radius: 2vh;
         }
@@ -2289,6 +2333,9 @@
         @include disFC();
         gap: 5vh;
         &__prop {
+            background-color: #d2b569;
+            color: black;
+            border-color: white;
             width: 30%;
             border-radius: 2vh;
         }
@@ -2467,6 +2514,7 @@
             &__select {
                 width: 100%;
                 height: 35px;
+                color: black;
             }
         }
         &__selectSchedule {
@@ -2476,6 +2524,7 @@
             &__select {
                 width: 100%;
                 height: 35px;
+                color: black;
             }
         }
     }
@@ -2563,6 +2612,7 @@
             &__select {
                 width: 100%;
                 height: 30px;
+                color: black;
             }
         }
         &__selectSchedule {
@@ -2752,6 +2802,7 @@
                 width: 100%;
                 height: 30px;
                 border: none;
+                color: black;
             }
         }
     }
@@ -2984,6 +3035,7 @@
             &__select {
                 width: 90%;
                 height: auto;
+                color: black;
             }
         }
         &__selectSchedule {
@@ -2994,6 +3046,7 @@
             &__select {
                 width: 70%;
                 height: 35px;
+                color: black;
             }
         }
         &__datePikerShiftsListMobile {
@@ -3291,6 +3344,17 @@
             }
             
         }
+        &__selectSchedule {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            &__select {
+                width: 90%;
+                height: 35px;
+                color: black;
+            }
+            
+        }
     }
     &__btns {
         width: 100%;
@@ -3356,6 +3420,17 @@
             &__prop {
                 width: 90%;
                 height: 35px;
+            }
+            
+        }
+        &__selectSchedule {
+            width: 100%;
+            height: auto;
+            @include disFC();
+            &__select {
+                width: 90%;
+                height: 35px;
+                color: black;
             }
             
         }

@@ -326,8 +326,8 @@ const UsersListModalMobile = ({id,first_name,last_name,email,role,handleUpdateUs
                         <div className='updateUserModalContainerMobile__labelInput__label'>
                             <div className='updateUserModalContainerMobile__labelInput__label__prop'>Role:</div>
                         </div>
-                        <div className='updateUserModalContainerMobile__labelInput__input'>
-                            <select className='updateShiftModalContainerMobile__labelInput__selectSchedule__select' value={selectRoleOptionIU} onChange={handleSelectRoleOptionIU}>
+                        <div className='updateUserModalContainerMobile__labelInput__selectSchedule'>
+                            <select className='updateUserModalContainerMobile__labelInput__selectSchedule__select' value={selectRoleOptionIU} onChange={handleSelectRoleOptionIU}>
                                 {optionsRoleIU.map((option, index) => (
                                     <option key={index} value={option}>{option}</option>
                                 ))}

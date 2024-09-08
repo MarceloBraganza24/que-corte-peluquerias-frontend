@@ -181,9 +181,10 @@ const Login = () => {
                 </div>
 
                 <div className='loginContainer__logo'>
-                    <div className='loginContainer__logo__img'>
+                    <img src="https://storage.googleapis.com/que-corte-peluquerias-img/logo-que-corte.jpeg" className='loginContainer__logo__prop' alt="logo-que-corte"/>
+                    {/* <div className='loginContainer__logo__img'>
                         <img src="https://storage.googleapis.com/que-corte-peluquerias-img/logo-que-corte.jpeg" className='loginContainer__logo__img__prop' alt="logo-que-corte"/>
-                    </div>
+                    </div> */}
                 </div>
 
 
