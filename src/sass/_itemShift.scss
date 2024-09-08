@@ -210,7 +210,6 @@
             height: auto;
             text-align: center;
             font-size: 18px;
-            color: black;
         }
     }
     &__selectSchedule {
@@ -316,6 +315,8 @@ display: none;
             width: 40%;
             height: auto;
             border-radius: 1vh;
+            color: black;
+            border-color: white;
         }
     }
 }

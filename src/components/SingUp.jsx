@@ -235,9 +235,7 @@ const SingUp = () => {
                 </div>
 
                 <div className='singUpContainer__logo'>
-                    <div className='singUpContainer__logo__img'>
-                        <img src="https://storage.googleapis.com/que-corte-peluquerias-img/logo-que-corte.jpeg" className='singUpContainer__logo__img__prop' alt="logo-que-corte"/>
-                    </div>
+                    <img src="https://storage.googleapis.com/que-corte-peluquerias-img/logo-que-corte.jpeg" className='singUpContainer__logo__prop' alt="logo-que-corte"/>
                 </div>
 
                 <div className='singUpContainer__background-img-up'>

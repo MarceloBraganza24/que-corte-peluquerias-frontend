@@ -343,8 +343,8 @@ const PricesListModal = ({id,priceOf,valuePriceOf,category,setIsPricesListModalO
                         <div className='updatePriceModalContainerMobile__labelInput__label'>
                             <div className='updatePriceModalContainerMobile__labelInput__label__prop'>Categoría:</div>
                         </div>
-                        <div className='updatePriceModalContainerMobile__labelInput__input'>
-                            <select className='updateShiftModalContainerMobile__labelInput__selectSchedule__select' value={inputCreateCategory} onChange={(e) => {handleInputCreateCategory(e.target.value)}}>
+                        <div className='updatePriceModalContainerMobile__labelInput__selectSchedule'>
+                            <select className='updatePriceModalContainerMobile__labelInput__selectSchedule__select' value={inputCreateCategory} onChange={(e) => {handleInputCreateCategory(e.target.value)}}>
                                 {optionsCategory.map((option, index) => (
                                     <option key={index} value={option}>{option}</option>
                                 ))}
@@ -383,8 +383,8 @@ const PricesListModal = ({id,priceOf,valuePriceOf,category,setIsPricesListModalO
                         <div className='updatePriceModalContainerMobile__labelInput__label'>
                             <div className='updatePriceModalContainerMobile__labelInput__label__prop'>Categoría:</div>
                         </div>
-                        <div className='updatePriceModalContainerMobile__labelInput__input'>
-                            <select disabled className='updateShiftModalContainerMobile__labelInput__selectSchedule__select' value={inputCreateCategory} onChange={(e) => {handleInputCreateCategory(e.target.value)}}>
+                        <div className='updatePriceModalContainerMobile__labelInput__selectSchedule'>
+                            <select disabled className='updatePriceModalContainerMobile__labelInput__selectSchedule__select' value={inputCreateCategory} onChange={(e) => {handleInputCreateCategory(e.target.value)}}>
                                 {optionsCategory.map((option, index) => (
                                     <option key={index} value={option}>{option}</option>
                                 ))}

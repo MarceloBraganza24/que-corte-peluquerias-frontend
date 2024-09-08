@@ -13,6 +13,10 @@
         width: 100%;
         height: auto;
         @include disFC();
+        animation: fadeIn 2s ease-in;
+        &__prop {
+            width: 75%;
+        }
     }
     &__background-img-up {
         display: none;
@@ -108,6 +112,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 1;
+        animation: fadeIn 2s ease-in;
         &__prop {
             width: 100%;
         }

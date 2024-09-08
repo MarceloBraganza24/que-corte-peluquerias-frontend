@@ -12,6 +12,7 @@
         &__phrase {
             color: white;
             padding-bottom: 2vh;
+            animation: fadeIn 0.3s ease-in;
         }
         &__credentials {
             width: 50%;
@@ -94,6 +95,7 @@
         &__phrase {
             color: white;
             padding-bottom: 2vh;
+            animation: fadeIn 2s ease-in;
         }
         &__credentials {
             width: 50%;
@@ -304,6 +306,7 @@
         flex-direction: column;
         &__phrase {
             color: white;
+            animation: fadeIn 2s ease-in;
         }
         &__credentials {
             width: 100%;
@@ -336,6 +339,7 @@
                         height: auto;
                         padding: 1vh 0vh;
                         border-radius: 1vh;
+                        color: black;
                     }
                     &__price {
                         width: 100%;
@@ -358,7 +362,7 @@
                     color: black;
                     border-radius: 5vh;
                     font-weight: bold;
-                    border: 0.3vh solid black;
+                    border: 0.3vh solid white;
                     &:hover {
                         background-color: white;
                         color: black;

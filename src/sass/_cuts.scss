@@ -14,6 +14,7 @@
             width: 100%;
             height: auto;
             @include disFC();
+            animation: fadeIn 2s ease-in;
             &__prop {
                 width: 90%;
                 border-radius: 2vh;
@@ -40,6 +41,7 @@
             width: 100%;
             height: auto;
             @include disFC();
+            animation: fadeIn 2s ease-in;
             &__prop {
                 width: 90%;
                 border-radius: 2vh;

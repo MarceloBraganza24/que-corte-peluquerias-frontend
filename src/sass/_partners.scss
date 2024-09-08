@@ -221,6 +221,7 @@
     &__phrase {
         color: white;
         padding-bottom: 1vh;
+        animation: fadeIn 2s ease-in;
     }
     &__credentials {
         width: 40%;

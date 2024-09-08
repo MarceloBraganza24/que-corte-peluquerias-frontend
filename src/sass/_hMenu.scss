@@ -30,6 +30,7 @@
     border-radius: 2vh;
     border: 0.5vh solid #d2b569;
     z-index: 2;
+    animation: fadeIn 0.3s ease-in;
     &__item {
         color: white;
         text-decoration: none;
@@ -90,6 +91,7 @@
     padding: 2vh 1vh 1vh 1vh;
     border-radius: 2vh;
     border: 0.5vh solid #d2b569;
+    animation: fadeIn 0.3s ease-in;
     &__item {
         color: white;
         text-decoration: none;
